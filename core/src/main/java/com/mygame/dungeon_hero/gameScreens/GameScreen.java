@@ -45,7 +45,6 @@ public class GameScreen implements Screen {
         banditButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new FirstScreen());
             }
         });
 
@@ -54,7 +53,6 @@ public class GameScreen implements Screen {
         warriorButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new FirstScreen());
             }
         });
 
@@ -62,7 +60,7 @@ public class GameScreen implements Screen {
         barbarianButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new FirstScreen());
+
             }
         });
 
