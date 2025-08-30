@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import lombok.Getter;
 
 public class UIManager {
@@ -25,9 +26,9 @@ public class UIManager {
         bigFont = generator.generateFont(parameter);  // Генерация шрифта
         generator.dispose();  // Освобождение ресурсов
 
-        // Заменить стандартный шрифт в скине
-        skin.getFont("default-font").dispose(); // Освобождаем стандартный шрифт
-        skin.add("default-font", bigFont, BitmapFont.class); // Добавляем кастомный шрифт в скин
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
+        style.font = bigFont;
+        skin.add("big", style); // Добавляем кастомный шрифт в скин
     }
 
     public static Skin getSkin() {
