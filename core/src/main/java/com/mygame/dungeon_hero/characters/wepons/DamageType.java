@@ -4,4 +4,5 @@ public enum DamageType {
     SLASHING,
     BLUDGEONING,
     PIERCING,
+    MONSTER
 }

@@ -11,7 +11,7 @@ public class Bandit implements HeroClass {
 
     public Hero lvlUp(Hero hero) {
         lvl++;
-        hero.setMaxHealth(hero.getMaxHealth() + HEALTH_PER_LVL);
+        hero.setHealth(hero.getHealth() + HEALTH_PER_LVL);
         switch (lvl) {
             case 1:
                 if (hero.getWeapon() == null) {
