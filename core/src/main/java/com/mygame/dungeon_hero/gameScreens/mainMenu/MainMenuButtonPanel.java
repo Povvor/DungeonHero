@@ -6,13 +6,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.gameScreens.characterCreation.GameScreen;
+import lombok.Getter;
 
+@Getter
 public class MainMenuButtonPanel {
-    private TextButton startButton;
-    private TextButton exitButton;
+    private final TextButton startButton;
+    private final TextButton exitButton;
 
-    public MainMenuButtonPanel(Skin skin, Game game) {
+    public MainMenuButtonPanel(Skin skin, GameCore game) {
         // Создаем стиль для кнопок с кастомным шрифтом
 
         // Создаем кнопки с этим стилем
@@ -46,11 +49,4 @@ public class MainMenuButtonPanel {
         return table;
     }
 
-    public TextButton getStartButton() {
-        return startButton;
-    }
-
-    public TextButton getExitButton() {
-        return exitButton;
-    }
 }

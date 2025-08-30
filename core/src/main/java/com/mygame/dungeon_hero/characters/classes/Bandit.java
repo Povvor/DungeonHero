@@ -1,13 +1,15 @@
 package com.mygame.dungeon_hero.characters.classes;
 
 import com.mygame.dungeon_hero.characters.Hero;
+import lombok.Getter;
 
 import static com.mygame.dungeon_hero.characters.Perks.*;
 import static com.mygame.dungeon_hero.characters.wepons.Weapons.*;
 
 public class Bandit implements HeroClass {
     private static final int HEALTH_PER_LVL = 4;
-    private int lvl = 0;
+    private @Getter int lvl = 0;
+    private final @Getter String name  = "Разбойник";
 
     public Hero lvlUp(Hero hero) {
         lvl++;

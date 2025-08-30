@@ -17,7 +17,6 @@ public class Adventure {
     }
 
     public void startAdventure() {
-        Scanner sc = new Scanner(System.in);
         Enemies[] enemies = Enemies.values();
         for (int i = 0; i < 5; i++) {
             Enemies randomEnemy = enemies[ThreadLocalRandom.current().nextInt(0, enemies.length)];
@@ -32,7 +31,6 @@ public class Adventure {
             System.out.println("You Win in a bsttle ");
             if(hero.getLevel() > 3) {
                 System.out.println("Choose Level Up 1-Bandit, 2-Warrior, 3-Barbarian");
-                hero = hero.getClasses().get(sc.nextInt()).lvlUp(hero);
             }
         }
         System.out.println("You are true hero");

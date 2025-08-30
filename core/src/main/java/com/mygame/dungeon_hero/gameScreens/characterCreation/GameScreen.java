@@ -5,23 +5,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.Main;
+import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
-import com.mygame.dungeon_hero.gameScreens.mainMenu.MainMenuButtonPanel;
 
 // Ваши классы логики, например, GameLogic или что-то подобное
 // import your.game.logic.GameLogic;
 
 public class GameScreen implements Screen {
     private Stage stage;
-    private final Game game;
+    private final GameCore game;
     // Ваша игровая логика (инициализируйте здесь)
     // private GameLogic gameLogic;
 
-    public GameScreen(Game game) {
+    public GameScreen(GameCore game) {
         this.game = game;
     }
 

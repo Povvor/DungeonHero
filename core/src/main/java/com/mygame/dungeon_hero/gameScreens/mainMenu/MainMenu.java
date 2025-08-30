@@ -7,13 +7,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygame.dungeon_hero.GameWorld;
+import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
 
 public class MainMenu implements Screen {
     private Stage stage;
-    private final Game game;
+    private final GameCore game;
+    private GameWorld gameWorld;
 
-    public MainMenu(Game game) {
+    public MainMenu(GameCore game) {
         this.game = game;
     }
 
