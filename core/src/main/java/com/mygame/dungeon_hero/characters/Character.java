@@ -1,5 +1,6 @@
 package com.mygame.dungeon_hero.characters;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.mygame.dungeon_hero.characters.wepons.DamageType;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class Character {
     private @Getter @Setter int endurance;
     private @Getter DamageType damageType;
     private @Getter List<Perks> perks = new ArrayList<>();
+    private @Getter @Setter Texture sprite;
 
     public Character() {
     }
@@ -27,6 +29,7 @@ public class Character {
         this.agility = enemies.getAgility();
         this.endurance = enemies.getEndurance();
         this.perks = enemies.getPerks();
+        this.sprite = enemies.getSprite();
         damageType = DamageType.MONSTER;
     }
 

@@ -1,5 +1,6 @@
 package com.mygame.dungeon_hero.gameScreens.characterCreation;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -8,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.characters.Hero;
+import com.mygame.dungeon_hero.gameScreens.UIManager;
+import com.mygame.dungeon_hero.gameScreens.levels.BattleScreen;
 
 public class CharCreateButtons {
     private final TextButton banditButton;
@@ -16,9 +19,11 @@ public class CharCreateButtons {
     private final TextButton startButton;
     private final Label label;
     private final GameCore game;
+    private final GameScreen screen;
 
-    public CharCreateButtons(Skin skin, GameCore game) {
+    public CharCreateButtons(Skin skin, GameCore game, GameScreen screen) {
         this.game = game;
+        this.screen = screen;
         // Создаем стиль для кнопок с кастомным шрифтом
 
         // Создаем кнопки с этим стилем
@@ -76,7 +81,7 @@ public class CharCreateButtons {
             hero.getHeroInfo();
         label.setText(heroInfo);
         startButton.setVisible(true);
-
+        screen.drawHeroIcon();
 
     }
 

@@ -1,8 +1,12 @@
-package com.mygame.dungeon_hero;
+package com.mygame.dungeon_hero.logic;
 
+import com.badlogic.gdx.Game;
+import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.characters.Character;
 import com.mygame.dungeon_hero.characters.Perks;
 import com.mygame.dungeon_hero.characters.wepons.DamageType;
+import com.mygame.dungeon_hero.gameScreens.levels.BattleIntro;
+import com.mygame.dungeon_hero.gameScreens.levels.BattleScreen;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -12,14 +16,16 @@ public class Fight {
     private Character attacker;
     private Character defender;
     private int turnCount;
+    private final GameCore game;
 
-    public Fight(Character hero, Character enemy) {
+    public Fight(Character hero, Character enemy, GameCore game) {
         this.hero = hero;
         this.enemy = enemy;
+        this.game = game;
     }
 
     public void playBattle() {
-        System.out.println("Battle started. Your face " + enemy.getName());
+        playIntro();
         if (hero.getAgility() >= enemy.getAgility()) {
             System.out.println("First attacking hero!");
             attacker = hero;
@@ -33,6 +39,14 @@ public class Fight {
             turn();
             turnCount++;
         }
+    }
+
+    public void playIntro() {
+        game.setScreen(new BattleIntro(hero.getSprite(),enemy.getSprite(), this::startBattle));
+    }
+
+    public void startBattle() {
+
     }
 
     public void turn() {

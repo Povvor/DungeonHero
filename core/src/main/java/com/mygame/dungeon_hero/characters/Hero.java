@@ -1,5 +1,6 @@
 package com.mygame.dungeon_hero.characters;
 
+import com.mygame.dungeon_hero.assetManger.AssetManager;
 import com.mygame.dungeon_hero.characters.classes.Bandit;
 import com.mygame.dungeon_hero.characters.classes.Barbarian;
 import com.mygame.dungeon_hero.characters.classes.HeroClass;
@@ -29,6 +30,7 @@ public class Hero extends Character {
         classes.get(input).lvlUp(this);
         this.setDamage(weapon.getDamage());
         this.maxHealth = this.getHealth();
+        updateHeroSprite();
         setName("Hero");
         level++;
     }
@@ -41,6 +43,22 @@ public class Hero extends Character {
             "Сила: "  + getStrength() + "\n" +
             "Ловкость: " + getAgility() + "\n" +
             "Выносливость " + getEndurance();
+    }
+
+    private void updateHeroSprite() {
+        StringBuilder sc = new StringBuilder();
+        for (HeroClass heroClass : classes) {
+            if (heroClass instanceof Bandit) {
+                sc.append(((Bandit) heroClass).getLvl());
+            }
+            if (heroClass instanceof Warior) {
+                sc.append(((Warior) heroClass).getLvl());
+            }
+            if(heroClass instanceof Barbarian) {
+                sc.append(((Barbarian) heroClass).getLvl());
+            }
+        }
+        setSprite(AssetManager.findHeroSprite(sc.toString()));
     }
 
     public String getClassInfo() {

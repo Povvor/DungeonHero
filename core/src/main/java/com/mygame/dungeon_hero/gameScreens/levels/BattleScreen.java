@@ -1,28 +1,23 @@
 package com.mygame.dungeon_hero.gameScreens.levels;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.graphics.Texture;
 
-public class FirstLevelScreen implements Screen {
+public class BattleScreen implements Screen {
 
     private Stage stage;
     private SpriteBatch batch;
     private Skin skin;
     private BitmapFont font;
 
-    public FirstLevelScreen(Skin skin) {
+    public BattleScreen(Skin skin) {
         this.skin = skin;
     }
 

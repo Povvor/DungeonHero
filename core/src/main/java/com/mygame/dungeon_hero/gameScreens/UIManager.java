@@ -14,7 +14,7 @@ public class UIManager {
     private static BitmapFont bigFont;
 
     // Метод для инициализации шрифта и скина
-    public static void initialize() {
+    public static void init() {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         // Создание кастомного шрифта
