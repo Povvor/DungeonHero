@@ -5,6 +5,7 @@ import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.characters.Character;
 import com.mygame.dungeon_hero.characters.Perks;
 import com.mygame.dungeon_hero.characters.wepons.DamageType;
+import com.mygame.dungeon_hero.gameScreens.UIManager;
 import com.mygame.dungeon_hero.gameScreens.levels.BattleIntro;
 import com.mygame.dungeon_hero.gameScreens.levels.BattleScreen;
 
@@ -42,7 +43,7 @@ public class Fight {
     }
 
     public void playIntro() {
-        game.setScreen(new BattleIntro(hero.getSprite(),enemy.getSprite(), this::startBattle));
+        game.setScreen(new BattleIntro(hero.getSprite(),enemy.getSprite(), () -> game.setScreen(new BattleScreen(UIManager.getSkin()))));
     }
 
     public void startBattle() {

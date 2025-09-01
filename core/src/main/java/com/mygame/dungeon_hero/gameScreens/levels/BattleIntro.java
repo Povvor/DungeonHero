@@ -64,10 +64,9 @@ public class BattleIntro implements Screen {
         ));
 
         stage.addAction(Actions.sequence(
-            Actions.delay(4f),
+            Actions.delay(6f),
             Actions.run(() -> { if (onDone != null) onDone.run(); })
         ));
-        onDone.run();
     }
 
     @Override public void render(float delta) {
