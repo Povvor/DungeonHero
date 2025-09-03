@@ -3,63 +3,209 @@ package com.mygame.dungeon_hero.gameScreens.levels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygame.dungeon_hero.assetManger.AssetManager;
+import com.mygame.dungeon_hero.characters.GameCharacter;
+import com.mygame.dungeon_hero.gameScreens.UIManager;
+import static com.badlogic.gdx.scenes.scene2d.ui.Value.*;
 
 public class BattleScreen implements Screen {
 
-    private Stage stage;
-    private SpriteBatch batch;
-    private Skin skin;
-    private BitmapFont font;
+    private final Stage stage;
+    private final Skin skin = UIManager.getSkin();
+    private final GameCharacter hero;
+    private final GameCharacter enemy;
+    private final Image heroSprite;
+    private final Image enemySprite;
+    private final Image background;
+    private Label heroHealthLabel;
+    private Label enemyHealthLabel;
+    private final Runnable onCharReady;
+    private final float W;
+    private final float H;
+    private final float heroXPos;
+    private final float enemyXPos;
+    private final Label damageLabel;
 
-    public BattleScreen(Skin skin) {
-        this.skin = skin;
+    public BattleScreen(int battleCount, GameCharacter hero, GameCharacter enemy, Runnable onCharReady) {
+        this.hero = hero;
+        this.heroSprite = new Image(hero.getSprite());
+        heroHealthLabel = new Label("", skin,"label");
+        heroHealthLabel.setFontScale(2f);
+
+        this.enemy = enemy;
+        this.enemySprite = new Image(enemy.getSprite());
+        enemyHealthLabel = new Label("", skin,"label");
+        enemyHealthLabel.setFontScale(2f);
+
+        background = new Image(AssetManager.getBATTLE_BG()[battleCount - 1]);
+
+        this.onCharReady = onCharReady;
+
+        stage = new Stage(new ScreenViewport());
+        W = stage.getViewport().getWorldWidth();
+        H = stage.getViewport().getWorldHeight();
+        heroXPos = W * 0.20f;
+        enemyXPos = W * 0.80f;
+
+        // Генерация индикатора нанесенного урона
+        damageLabel = new Label("", skin, "redLabel");
+        damageLabel.setFontScale(2f);
+        damageLabel.setVisible(false);
     }
-
-    // Параметры здоровья
-    private int maxHealth = 100;
-    private int currentHealth = 100;
-
-    // Индикатор здоровья в виде текста
-    private Label healthLabel;
 
     @Override
     public void show() {
-        stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        batch = new SpriteBatch();  // Для рисования спрайтов
-        font = skin.getFont("font");  // Получаем стандартный шрифт из скина
+        // ===== корневой стек =====
+        Stack root = new Stack();
+        root.setFillParent(true);
+        stage.addActor(root);
 
-        // Создаем текстовый индикатор здоровья
-        String healthText = currentHealth + "/" + maxHealth;
-        healthLabel = new Label(healthText, new Label.LabelStyle(font, null));
-        healthLabel.setPosition(20, Gdx.graphics.getHeight() - 50);  // Размещение текста
+        // --- слой 0: фон ---
+        background.setFillParent(true);
+        background.setScaling(Scaling.fill);
+        background.getColor().a = 0f;
+        root.add(background);
+        background.addAction(Actions.fadeIn(1.5f));
 
-        // Добавляем индикатор здоровья на сцену
-        stage.addActor(healthLabel);
+        // --- слой 1: арена со спрайтами персонажей ---
+        Group arena = new Group();
+        root.add(arena); // между фоном и HUD
+
+        // позиции сразу тут (W/H лучше брать уже после show/resized)
+        float W = stage.getViewport().getWorldWidth();
+        float H = stage.getViewport().getWorldHeight();
+        float heroX  = W * 0.20f;
+        float enemyX = W * 0.80f;
+        float centerY = H * 0.50f;
+
+        // старт и анимация въезда
+        float heroStartX  = W * 0.30f;
+        float enemyStartX = W * 0.70f;
+        heroSprite.setPosition(heroStartX,  centerY, Align.center);
+        enemySprite.setPosition(enemyStartX, centerY, Align.center);
+        heroSprite.addAction(Actions.sequence(
+            Actions.delay(1.0f),
+            Actions.moveToAligned(heroX,  centerY, Align.center, 0.4f)
+        ));
+        enemySprite.addAction(Actions.sequence(
+            Actions.delay(1.0f),
+            Actions.moveToAligned(enemyX, centerY, Align.center, 0.4f)
+        ));
+
+        arena.addActor(heroSprite);
+        arena.addActor(enemySprite);
+        arena.addActor(damageLabel);
+
+        // --- слой 2: HUD ---
+        Table hud = new Table();
+        hud.setFillParent(true);
+        hud.top().pad(
+            percentHeight(0.03f, hud),
+            percentWidth (0.02f, hud),
+            percentHeight(0.00f, hud),
+            percentWidth (0.02f, hud)
+        );
+        hud.getColor().a = 0f;
+        hud.addAction(Actions.sequence(Actions.delay(0.8f), Actions.fadeIn(0.6f)));
+        root.add(hud); // будет поверх арены
+
+        heroHealthLabel.setText(hero.getHealth() + "/" + hero.getMaxHealth());
+        enemyHealthLabel.setText(enemy.getHealth() + "/" + enemy.getMaxHealth());
+
+        // первая строка — тексты
+        hud.add(heroHealthLabel).left().expandX();
+        hud.add(enemyHealthLabel).right().expandX();
+        hud.row();
+
+        // вторая строка — по ОДНОМУ heart в каждую ячейку
+        Image heroHeart  = new Image(AssetManager.getHEART_ICON());
+        Image enemyHeart = new Image(AssetManager.getHEART_ICON());
+        hud.add(heroHeart)
+            .left()
+            .size(percentHeight(0.05f, hud), percentHeight(0.05f, hud))
+            .padTop(percentHeight(0.012f, hud));
+        hud.add(enemyHeart)
+            .right()
+            .size(percentHeight(0.05f, hud), percentHeight(0.05f, hud))
+            .padTop(percentHeight(0.012f, hud));
+
+        // когда спрайты «доехали» — сообщаем наружу
+        stage.addAction(Actions.sequence(Actions.delay(2f), Actions.run(onCharReady)));
     }
+
+    public void playAttack(boolean isHeroAttacking, boolean isAttackSuccessfull, int damage, Runnable onAttackAniComplete) {
+        if(isHeroAttacking) {
+            heroAttackAnimation(onAttackAniComplete, damage, isAttackSuccessfull);
+        } else {
+            enemyAttackAnimation(onAttackAniComplete, damage, isAttackSuccessfull);
+        }
+    }
+
+    public void heroAttackAnimation(Runnable onDone, int damage, boolean isAttackSuccefull) {
+        float heroXAttackPos = W * 0.60f;
+        heroSprite.addAction(Actions.sequence(
+            Actions.moveToAligned(heroXAttackPos, H * 0.5f, Align.center, 0.2f),
+            Actions.delay(0.3f),
+            Actions.run(() -> animateDamageTake(onDone, damage, false, isAttackSuccefull)),
+            Actions.moveToAligned(heroXPos, H * 0.5f, Align.center, 0.7f)));
+
+
+    }
+
+    public void enemyAttackAnimation(Runnable onDone, int damage, boolean isAttackSuccessful) {
+        float enemyXAttackPos = W * 0.40f;
+        enemySprite.addAction(Actions.sequence(
+            Actions.moveToAligned(enemyXAttackPos, H * 0.5f, Align.center, 0.2f),
+            Actions.delay(0.3f),
+            Actions.run(() -> animateDamageTake(onDone, damage, true, isAttackSuccessful)),
+            Actions.moveToAligned(enemyXPos, H * 0.5f, Align.center, 0.7f)));
+
+    }
+
+    private void animateDamageTake(Runnable onDone, int damage, boolean isHeroGetDamage, boolean isAttackSuccessful) {
+        GameCharacter defender;
+        float damageLabelPos;
+        if (isHeroGetDamage) {
+            damageLabelPos = heroXPos;
+            defender = hero;
+        } else {
+            damageLabelPos = enemyXPos;
+            defender = enemy;
+        }
+        damageLabel.setPosition(damageLabelPos, H * 0.5f);
+        if (isAttackSuccessful) {
+            damageLabel.setText(damage);
+        } else {
+            damageLabel.setText("ПРОМАХ!!!");
+        }
+        damageLabel.setVisible(true);
+        damageLabel.addAction(Actions.moveToAligned(damageLabelPos, H * 0.75f, Align.center, 1.6f));
+        damageLabel.addAction(Actions.sequence(
+            Actions.run(() -> defender.takeDamage(damage)),
+            Actions.fadeOut(1.5f),
+            Actions.delay(0.5f),
+            Actions.run(() -> damageLabel.setVisible(false)),
+            Actions.run(() -> damageLabel.getColor().a = 1f),
+            Actions.run(onDone)));
+    }
+
 
     @Override
     public void render(float delta) {
-        // Очистка экрана
-        Gdx.gl.glClearColor(0, 0, 0, 1);  // Черный фон
+        enemyHealthLabel.setText(enemy.getHealth() + "/" + enemy.getMaxHealth());
+        heroHealthLabel.setText(hero.getHealth() + "/" + hero.getMaxHealth());
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        batch.begin();
-
-        // Отображение текста (здоровья)
-        healthLabel.setText(currentHealth + "/" + maxHealth);
-
-        batch.end();
-
-        // Рисуем сцену
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));  // Обновление
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
         stage.draw();
     }
 
@@ -70,8 +216,7 @@ public class BattleScreen implements Screen {
 
     @Override
     public void hide() {
-        stage.dispose();
-        batch.dispose();
+        //stage.dispose();
     }
 
     @Override
@@ -82,5 +227,6 @@ public class BattleScreen implements Screen {
 
     @Override
     public void dispose() {}
+
 }
 

@@ -8,7 +8,7 @@ import static com.mygame.dungeon_hero.characters.wepons.Weapons.SWORD;
 
 public class Warior implements HeroClass {
     private static final int HEALTH_PER_LVL = 6;
-    private @Getter int lvl = 0;
+    private int lvl = 0;
     private final @Getter String name  = "Воин";
 
     @Override
@@ -30,5 +30,10 @@ public class Warior implements HeroClass {
                 break;
         }
         return hero;
+    }
+
+    @Override
+    public int getLvl() {
+        return lvl;
     }
 }

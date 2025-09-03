@@ -7,10 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygame.dungeon_hero.GameCore;
+import com.mygame.dungeon_hero.assetManger.AssetManager;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
-import lombok.Getter;
 
 // Ваши классы логики, например, GameLogic или что-то подобное
 // import your.game.logic.GameLogic;
@@ -19,6 +20,7 @@ public class GameScreen implements Screen {
     public  Stage stage;
     private final GameCore game;
     private Image heroIcon;
+    private final Image background = new Image(AssetManager.getMAIN_MENU_BG());
     // Ваша игровая логика (инициализируйте здесь)
     // private GameLogic gameLogic;
 
@@ -31,6 +33,9 @@ public class GameScreen implements Screen {
         CharCreateButtons buttons = new CharCreateButtons(UIManager.getSkin(), game, this);
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        background.setFillParent(true);
+        background.setScaling(Scaling.fill);
+        stage.addActor(background);
         Table table = buttons.getPanel();
         table.setFillParent(true);
         stage.addActor(table);
@@ -69,7 +74,6 @@ public class GameScreen implements Screen {
     @Override
     public void hide() {
         stage.dispose();
-        UIManager.dispose();  // Освобождаем ресурсы UIManager
     }
 
     @Override

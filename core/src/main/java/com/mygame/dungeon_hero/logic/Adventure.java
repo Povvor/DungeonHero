@@ -1,15 +1,19 @@
 package com.mygame.dungeon_hero.logic;
 
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.characters.Character;
+import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Enemies;
 import com.mygame.dungeon_hero.characters.Hero;
+import com.mygame.dungeon_hero.gameScreens.levels.WinScreen;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Adventure {
+    private final Enemies[] ENEMIES = Enemies.values();
     private Hero hero;
     private GameCore game;
+    private int battleCount = 1;
+
 
     public Adventure(Hero hero, GameCore game) {
         this.hero = hero;
@@ -17,22 +21,22 @@ public class Adventure {
     }
 
     public void startAdventure() {
-        Enemies[] enemies = Enemies.values();
-        for (int i = 0; i < 5; i++) {
-            Enemies randomEnemy = enemies[ThreadLocalRandom.current().nextInt(0, enemies.length)];
-            Character enemy = new Character(randomEnemy);
-            Fight fight = new Fight(hero, enemy, game);
-            fight.playBattle();
-            if (hero.getHealth() <= 0) {
-                System.out.println("You're out of hero.");
-                return;
-            }
-            hero.setHealth(hero.getMaxHealth());
-            System.out.println("You Win in a bsttle ");
-            if(hero.getLevel() > 3) {
-                System.out.println("Choose Level Up 1-Bandit, 2-Warrior, 3-Barbarian");
-            }
+        nextBattle();
+    }
+
+    private void checkStatusAfterBattle(GameCharacter enemy) {
+        if (hero.getHealth() <= 0) {
+            game.setScreen(new WinScreen(hero, enemy));
+        } else {
+            game.setScreen(new WinScreen(hero, enemy));
         }
-        System.out.println("You are true hero");
+    }
+
+    private void nextBattle() {
+        int random = ThreadLocalRandom.current().nextInt(0, ENEMIES.length);
+        Enemies randomEnemy  = ENEMIES[random];
+        GameCharacter enemy = new GameCharacter(randomEnemy);
+        Battle battle = new Battle(hero, enemy, game, battleCount, () -> checkStatusAfterBattle(enemy));
+        battle.playIntro();
     }
 }

@@ -1,6 +1,7 @@
 package com.mygame.dungeon_hero.characters;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.mygame.dungeon_hero.characters.classes.HeroClass;
 import com.mygame.dungeon_hero.characters.wepons.DamageType;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,9 +9,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Character {
+public class GameCharacter {
     private @Getter @Setter String name;
     private @Getter @Setter int health;
+    private @Getter @Setter int maxHealth;
     private @Getter @Setter int damage;
     private @Getter @Setter int strength;
     private @Getter @Setter int agility;
@@ -18,24 +20,26 @@ public class Character {
     private @Getter DamageType damageType;
     private @Getter List<Perks> perks = new ArrayList<>();
     private @Getter @Setter Texture sprite;
+    private @Getter @Setter List<HeroClass> classes;
 
-    public Character() {
+    public GameCharacter() {
     }
 
-    public Character(Enemies enemies) {
+    public GameCharacter(Enemies enemies) {
         this.health = enemies.getHealth();
+        this.maxHealth = enemies.getHealth();
         this.damage = enemies.getDamage();
         this.strength = enemies.getStrength();
         this.agility = enemies.getAgility();
         this.endurance = enemies.getEndurance();
         this.perks = enemies.getPerks();
         this.sprite = enemies.getSprite();
-        damageType = DamageType.MONSTER;
+        this.name = enemies.getName();
+        damageType = enemies.getDamageType() == null ? DamageType.MONSTER : enemies.getDamageType();
     }
 
     public void takeDamage(int damage) {
         health -= damage;
-        System.out.println(name + " Takes damage: " + damage);
         if (health < 0) {
             health = 0;
         }

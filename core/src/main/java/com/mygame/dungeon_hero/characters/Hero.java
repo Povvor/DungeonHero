@@ -9,27 +9,25 @@ import com.mygame.dungeon_hero.characters.wepons.Weapons;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Hero extends Character {
+public class Hero extends GameCharacter {
     private @Getter @Setter Weapons weapon;
     private static Random random = new Random();
-    private @Getter List<HeroClass> classes;
-    private @Getter @Setter int maxHealth;
+    private @Getter List<Integer> classLevels;
     private @Getter int level;
 
 
     public Hero(int input) {
-        this.setStrength(random.nextInt(1,4));
-        this.setAgility(random.nextInt(1,4));
-        this.setEndurance(random.nextInt(1,4));
-        classes = Arrays.asList(new Bandit(), new Warior(), new Barbarian());
-        classes.get(input).lvlUp(this);
+        this.setStrength(random.nextInt(10,100));
+        this.setAgility(random.nextInt(10,100));
+        this.setEndurance(random.nextInt(10,100));
+        this.setClasses(Arrays.asList(new Bandit(), new Warior(), new Barbarian()));
+        getClasses().get(input).lvlUp(this);
         this.setDamage(weapon.getDamage());
-        this.maxHealth = this.getHealth();
+        this.setMaxHealth(this.getHealth());
         updateHeroSprite();
         setName("Hero");
         level++;
@@ -47,23 +45,15 @@ public class Hero extends Character {
 
     private void updateHeroSprite() {
         StringBuilder sc = new StringBuilder();
-        for (HeroClass heroClass : classes) {
-            if (heroClass instanceof Bandit) {
-                sc.append(((Bandit) heroClass).getLvl());
-            }
-            if (heroClass instanceof Warior) {
-                sc.append(((Warior) heroClass).getLvl());
-            }
-            if(heroClass instanceof Barbarian) {
-                sc.append(((Barbarian) heroClass).getLvl());
-            }
+        for (HeroClass heroClass : getClasses()) {
+            sc.append(heroClass.getLvl());
         }
         setSprite(AssetManager.findHeroSprite(sc.toString()));
     }
 
     public String getClassInfo() {
         StringBuilder output = new StringBuilder();
-        for (HeroClass hc : classes) {
+        for (HeroClass hc : getClasses()) {
             if (hc instanceof Bandit && ((Bandit) hc).getLvl() > 0) {
                 output.append(((Bandit) hc).getName()).append("  ").append(((Bandit) hc).getLvl()).append(" Уровень").append("\n");
             }

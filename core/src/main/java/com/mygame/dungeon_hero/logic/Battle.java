@@ -1,68 +1,74 @@
 package com.mygame.dungeon_hero.logic;
 
-import com.badlogic.gdx.Game;
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.characters.Character;
+import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Perks;
 import com.mygame.dungeon_hero.characters.wepons.DamageType;
-import com.mygame.dungeon_hero.gameScreens.UIManager;
 import com.mygame.dungeon_hero.gameScreens.levels.BattleIntro;
 import com.mygame.dungeon_hero.gameScreens.levels.BattleScreen;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Fight {
-    private Character hero;
-    private Character enemy;
-    private Character attacker;
-    private Character defender;
+public class Battle {
+    private GameCharacter hero;
+    private GameCharacter enemy;
+    private GameCharacter attacker;
+    private GameCharacter defender;
     private int turnCount;
     private final GameCore game;
+    private int battleCount = 1;
+    private BattleScreen battleScreen;
+    private Runnable onBattleComplete;
 
-    public Fight(Character hero, Character enemy, GameCore game) {
+    public Battle(GameCharacter hero, GameCharacter enemy, GameCore game, int battleCount, Runnable onBattleComplete) {
         this.hero = hero;
         this.enemy = enemy;
         this.game = game;
+        battleScreen = new BattleScreen(battleCount, hero, enemy, this::turn);
+        if (hero.getAgility() > enemy.getAgility()) {
+            attacker = hero;
+            defender = enemy;
+        } else {
+            attacker = enemy;
+            defender = hero;
+        }
+        this.onBattleComplete = onBattleComplete;
     }
 
     public void playBattle() {
         playIntro();
-        if (hero.getAgility() >= enemy.getAgility()) {
-            System.out.println("First attacking hero!");
-            attacker = hero;
-            defender = enemy;
-        } else {
-            System.out.println("First attacking " + enemy.getName() + "!");
-            attacker = enemy;
-            defender = hero;
-        }
-        while (hero.getHealth() > 0 && enemy.getHealth() > 0) {
-            turn();
-            turnCount++;
-        }
     }
 
     public void playIntro() {
-        game.setScreen(new BattleIntro(hero.getSprite(),enemy.getSprite(), () -> game.setScreen(new BattleScreen(UIManager.getSkin()))));
+        game.setScreen(new BattleIntro(hero.getSprite(),enemy.getSprite(), this::startBattle));
     }
 
     public void startBattle() {
+        game.setScreen(battleScreen);
 
     }
 
     public void turn() {
         int damage = 0;
-        if (isAttackSuccess(attacker, defender)) {
+        boolean isAttackSuccess = isAttackSuccess(attacker, defender);
+        if (isAttackSuccess) {
             damage = attacker.getDamage();
             damage = calculateAttackBuffs(damage);
             damage = calculateDefenderBuffs(damage);
-            defender.takeDamage(damage);
         }
-        shiftCharRoles();
+        battleScreen.playAttack(attacker == hero, isAttackSuccess, damage, this::continueFight);
     }
 
-    public boolean isAttackSuccess(Character attacker, Character defender) {
-        int random = ThreadLocalRandom.current().nextInt(1, attacker.getAgility() + defender.getAgility());
+    public void continueFight() {
+        if (enemy.getHealth() <= 0) {
+            onBattleComplete.run();
+        }
+        shiftCharRoles();
+        turn();
+    }
+
+    public boolean isAttackSuccess(GameCharacter attacker, GameCharacter defender) {
+        int random = ThreadLocalRandom.current().nextInt(1, attacker.getAgility() + defender.getAgility() + 1);
         return random > defender.getAgility();
     }
 
@@ -121,11 +127,8 @@ public class Fight {
     }
 
     private void shiftCharRoles() {
-        Character temp = attacker;
+        GameCharacter temp = attacker;
         attacker = defender;
         defender = temp;
     }
-
-
-
 }

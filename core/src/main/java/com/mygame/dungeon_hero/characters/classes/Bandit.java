@@ -8,7 +8,7 @@ import static com.mygame.dungeon_hero.characters.wepons.Weapons.*;
 
 public class Bandit implements HeroClass {
     private static final int HEALTH_PER_LVL = 4;
-    private @Getter int lvl = 0;
+    private int lvl = 0;
     private final @Getter String name  = "Разбойник";
 
     public Hero lvlUp(Hero hero) {
@@ -29,5 +29,10 @@ public class Bandit implements HeroClass {
                 break;
         }
         return hero;
+    }
+
+    @Override
+    public int getLvl() {
+        return lvl;
     }
 }

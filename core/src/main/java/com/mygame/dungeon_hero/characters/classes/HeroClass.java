@@ -4,4 +4,5 @@ import com.mygame.dungeon_hero.characters.Hero;
 
 public interface HeroClass {
     Hero lvlUp (Hero hero);
+    int getLvl();
 }
