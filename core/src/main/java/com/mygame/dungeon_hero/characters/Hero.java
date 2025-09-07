@@ -1,6 +1,7 @@
 package com.mygame.dungeon_hero.characters;
 
-import com.mygame.dungeon_hero.assetManger.AssetManager;
+import com.mygame.dungeon_hero.assetManger.Assets;
+import com.mygame.dungeon_hero.assetManger.AtlasType;
 import com.mygame.dungeon_hero.characters.classes.Bandit;
 import com.mygame.dungeon_hero.characters.classes.Barbarian;
 import com.mygame.dungeon_hero.characters.classes.HeroClass;
@@ -44,11 +45,11 @@ public class Hero extends GameCharacter {
     }
 
     private void updateHeroSprite() {
-        StringBuilder sc = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         for (HeroClass heroClass : getClasses()) {
-            sc.append(heroClass.getLvl());
+            builder.append(heroClass.getLvl());
         }
-        setSprite(AssetManager.findHeroSprite(sc.toString()));
+        setSprite(Assets.getRegion(AtlasType.HERO, builder.toString()));
     }
 
     public String getClassInfo() {

@@ -7,14 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.assetManger.AssetManager;
+import com.mygame.dungeon_hero.assetManger.Assets;
+import com.mygame.dungeon_hero.assetManger.AtlasType;
 import com.mygame.dungeon_hero.characters.GameCharacter;
-import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.characters.classes.Bandit;
-import com.mygame.dungeon_hero.characters.classes.Barbarian;
-import com.mygame.dungeon_hero.characters.classes.HeroClass;
-import com.mygame.dungeon_hero.characters.classes.Warior;
 
 public class WinScreen implements Screen {
     private final Stage stage;
@@ -49,7 +44,7 @@ public class WinScreen implements Screen {
                     builder.append(hero.getClasses().get(j).getLvl());
                 }
             }
-            heroSkinPreview[i] = new Image(AssetManager.getHERO_SPRITES().get(builder.toString()));
+            heroSkinPreview[i] = new Image(Assets.getRegion(AtlasType.HERO, builder.toString()));
             builder.setLength(0);
         }
         return heroSkinPreview;

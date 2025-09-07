@@ -10,7 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.assetManger.AssetManager;
+import com.mygame.dungeon_hero.assetManger.Assets;
+import com.mygame.dungeon_hero.assetManger.AtlasType;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
 import static com.badlogic.gdx.scenes.scene2d.ui.Value.*;
@@ -44,7 +45,7 @@ public class BattleScreen implements Screen {
         enemyHealthLabel = new Label("", skin,"label");
         enemyHealthLabel.setFontScale(2f);
 
-        background = new Image(AssetManager.getBATTLE_BG()[battleCount - 1]);
+        background = new Image(Assets.getBgTexture("meadow.png"));
 
         this.onCharReady = onCharReady;
 
@@ -127,8 +128,8 @@ public class BattleScreen implements Screen {
         hud.row();
 
         // вторая строка — по ОДНОМУ heart в каждую ячейку
-        Image heroHeart  = new Image(AssetManager.getHEART_ICON());
-        Image enemyHeart = new Image(AssetManager.getHEART_ICON());
+        Image heroHeart  = new Image(Assets.getRegion(AtlasType.MISC, "heart"));
+        Image enemyHeart = new Image(Assets.getRegion(AtlasType.MISC, "heart"));
         hud.add(heroHeart)
             .left()
             .size(percentHeight(0.05f, hud), percentHeight(0.05f, hud))

@@ -1,0 +1,55 @@
+
+weapons.png
+size: 4096, 2048
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+axe
+  rotate: false
+  xy: 3368, 1194
+  size: 717, 758
+  orig: 1024, 1024
+  offset: 109, 170
+  index: -1
+club
+  rotate: false
+  xy: 2560, 1153
+  size: 806, 799
+  orig: 1024, 1024
+  offset: 93, 117
+  index: -1
+dagger
+  rotate: false
+  xy: 982, 1058
+  size: 776, 894
+  orig: 1024, 1024
+  offset: 157, 71
+  index: -1
+legendary
+  rotate: false
+  xy: 1, 1
+  size: 899, 962
+  orig: 1024, 1024
+  offset: 107, 57
+  index: -1
+mace
+  rotate: false
+  xy: 982, 314
+  size: 731, 742
+  orig: 1024, 1024
+  offset: 140, 141
+  index: -1
+spear
+  rotate: false
+  xy: 1760, 1113
+  size: 798, 839
+  orig: 1024, 1024
+  offset: 125, 95
+  index: -1
+sword
+  rotate: false
+  xy: 1, 965
+  size: 979, 987
+  orig: 1024, 1024
+  offset: 43, 32
+  index: -1

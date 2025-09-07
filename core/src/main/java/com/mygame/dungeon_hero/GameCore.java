@@ -1,7 +1,6 @@
 package com.mygame.dungeon_hero;
 
 import com.badlogic.gdx.Game;
-import com.mygame.dungeon_hero.assetManger.AssetManager;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
 import com.mygame.dungeon_hero.gameScreens.mainMenu.MainMenu;
 import com.mygame.dungeon_hero.logic.GameWorld;
@@ -14,7 +13,6 @@ public class GameCore extends Game {
     @Override
     public void create() {
         UIManager.init();
-        AssetManager.init();
         setScreen(new MainMenu(this));
     }
 }

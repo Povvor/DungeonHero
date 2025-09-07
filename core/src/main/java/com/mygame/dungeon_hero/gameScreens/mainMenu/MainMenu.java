@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.assetManger.AssetManager;
+import com.mygame.dungeon_hero.assetManger.Assets;
 import com.mygame.dungeon_hero.logic.GameWorld;
 import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
@@ -18,8 +18,7 @@ public class MainMenu implements Screen {
     private Stage stage;
     private final GameCore game;
     private GameWorld gameWorld;
-    private int frame;
-    private Image background = new Image(AssetManager.getMAIN_MENU_BG());
+    private Image background;
 
     public MainMenu(GameCore game) {
         this.game = game;
@@ -27,6 +26,10 @@ public class MainMenu implements Screen {
 
     @Override
     public void show() {
+        Assets.initMainAtlases();
+        Assets.changeBg("mainMenu.png");
+        Assets.finishAll();
+        background = new Image(Assets.getBgTexture("mainMenu.png"));
         MainMenuButtonPanel buttons = new MainMenuButtonPanel(UIManager.getSkin(),game);
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -44,7 +47,6 @@ public class MainMenu implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        frame++;
     }
 
     @Override

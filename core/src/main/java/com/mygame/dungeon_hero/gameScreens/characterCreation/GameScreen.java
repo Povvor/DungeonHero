@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.assetManger.AssetManager;
+import com.mygame.dungeon_hero.assetManger.Assets;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
 
 // Ваши классы логики, например, GameLogic или что-то подобное
@@ -20,7 +20,7 @@ public class GameScreen implements Screen {
     public  Stage stage;
     private final GameCore game;
     private Image heroIcon;
-    private final Image background = new Image(AssetManager.getMAIN_MENU_BG());
+    private Image background;
     // Ваша игровая логика (инициализируйте здесь)
     // private GameLogic gameLogic;
 
@@ -30,6 +30,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        Assets.changeBg("meadow.png");
+        background = new Image(Assets.getBgTexture("meadow.png"));
         CharCreateButtons buttons = new CharCreateButtons(UIManager.getSkin(), game, this);
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);

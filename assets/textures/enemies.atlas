@@ -1,0 +1,48 @@
+
+enemies.png
+size: 4096, 2048
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+dragon
+  rotate: false
+  xy: 918, 1015
+  size: 915, 922
+  orig: 987, 1000
+  offset: 45, 29
+  index: -1
+ghost
+  rotate: false
+  xy: 1, 958
+  size: 915, 979
+  orig: 1024, 1024
+  offset: 2, 32
+  index: -1
+goblin
+  rotate: false
+  xy: 918, 54
+  size: 815, 959
+  orig: 1024, 1024
+  offset: 58, 60
+  index: -1
+golem
+  rotate: false
+  xy: 1835, 1120
+  size: 852, 817
+  orig: 1024, 1024
+  offset: 85, 103
+  index: -1
+skeleton
+  rotate: false
+  xy: 1, 1
+  size: 915, 955
+  orig: 1024, 1024
+  offset: 2, 56
+  index: -1
+slime
+  rotate: false
+  xy: 2689, 1343
+  size: 786, 594
+  orig: 1024, 1024
+  offset: 103, 183
+  index: -1

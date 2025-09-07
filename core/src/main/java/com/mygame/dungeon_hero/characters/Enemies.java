@@ -1,7 +1,8 @@
 package com.mygame.dungeon_hero.characters;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.mygame.dungeon_hero.assetManger.AssetManager;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygame.dungeon_hero.assetManger.Assets;
+import com.mygame.dungeon_hero.assetManger.AtlasType;
 import com.mygame.dungeon_hero.characters.wepons.DamageType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +13,12 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public enum Enemies {
-    GOBLIN("Goblin", 5, 2 ,1, 1, 1, AssetManager.getENEMY_SPRITES()[0]),
-    SKELETON("Skeleton", 10, 2 ,2, 2, 1, AssetManager.getENEMY_SPRITES()[1], Perks.BLUDGEONING_WEAKNESS),
-    SLIME("Slime",8, 1 ,1, 1, 1, AssetManager.getENEMY_SPRITES()[2], Perks.SLASH_IMMUNITY),
-    GHOST("Ghost",6, 3 ,1, 3, 1, AssetManager.getENEMY_SPRITES()[3], Perks.SNEAK_ATTACK),
-    GOLEM("Golem", 10, 1 ,3, 1, 3, AssetManager.getENEMY_SPRITES()[4], Perks.STONE_SKIN),
-    DRAGON("Dragon",20, 4 ,3, 3, 3, AssetManager.getENEMY_SPRITES()[5], Perks.FIRE_BREATH);
+    GOBLIN("Goblin", 5, 2 ,1, 1, 1, Assets.getRegion(AtlasType.ENEMY, "goblin")),
+    SKELETON("Skeleton", 10, 2 ,2, 2, 1, Assets.getRegion(AtlasType.ENEMY, "skeleton"), Perks.BLUDGEONING_WEAKNESS),
+    SLIME("Slime",8, 1 ,1, 1, 1, Assets.getRegion(AtlasType.ENEMY, "slime"), Perks.SLASH_IMMUNITY),
+    GHOST("Ghost",6, 3 ,1, 3, 1, Assets.getRegion(AtlasType.ENEMY, "ghost"), Perks.SNEAK_ATTACK),
+    GOLEM("Golem", 10, 1 ,3, 1, 3, Assets.getRegion(AtlasType.ENEMY, "golem"), Perks.STONE_SKIN),
+    DRAGON("Dragon",20, 4 ,3, 3, 3, Assets.getRegion(AtlasType.ENEMY, "dragon"), Perks.FIRE_BREATH);
 
     private String name;
     private int health;
@@ -26,10 +27,10 @@ public enum Enemies {
     private int agility;
     private int endurance;
     private List<Perks> perks;
-    private Texture sprite;
+    private TextureRegion sprite;
     private DamageType damageType;
 
-    Enemies(String name,int health, int damage, int strength, int agility, int endurance, Texture texture, Perks... perks) {
+    Enemies(String name,int health, int damage, int strength, int agility, int endurance, TextureRegion texture, Perks... perks) {
         this.name = name;
         this.health = health;
         this.damage = damage;
@@ -40,7 +41,7 @@ public enum Enemies {
         this.perks = Arrays.asList(perks);
     }
 
-    Enemies(String name, int health, int damage, int strength, int agility, int endurance, DamageType damageType, Texture texture, Perks... perks) {
+    Enemies(String name, int health, int damage, int strength, int agility, int endurance, DamageType damageType, TextureRegion texture, Perks... perks) {
         this.name = name;
         this.health = health;
         this.damage = damage;

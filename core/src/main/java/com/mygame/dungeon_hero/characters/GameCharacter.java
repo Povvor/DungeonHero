@@ -1,6 +1,7 @@
 package com.mygame.dungeon_hero.characters;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygame.dungeon_hero.characters.classes.HeroClass;
 import com.mygame.dungeon_hero.characters.wepons.DamageType;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class GameCharacter {
     private @Getter @Setter int endurance;
     private @Getter DamageType damageType;
     private @Getter List<Perks> perks = new ArrayList<>();
-    private @Getter @Setter Texture sprite;
+    private @Getter @Setter TextureRegion sprite;
     private @Getter @Setter List<HeroClass> classes;
 
     public GameCharacter() {
