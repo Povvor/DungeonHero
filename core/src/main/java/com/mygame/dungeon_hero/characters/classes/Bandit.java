@@ -2,6 +2,7 @@ package com.mygame.dungeon_hero.characters.classes;
 
 import com.mygame.dungeon_hero.characters.Hero;
 import lombok.Getter;
+import lombok.Setter;
 
 import static com.mygame.dungeon_hero.characters.Perks.*;
 import static com.mygame.dungeon_hero.characters.wepons.Weapons.*;
@@ -29,6 +30,25 @@ public class Bandit implements HeroClass {
                 break;
         }
         return hero;
+    }
+
+    @Override
+    public String getLvlUpDescription(Hero hero) {
+        String result = "";
+        switch (lvl + 1) {
+            case 1:
+                result = "Стартовое оружие: Кинжал\n" + "Урон оружием "
+                    + DAGGER.getDamage() + "\n" + SNEAK_ATTACK.getDescription();
+                break;
+            case 2:
+                result = "Ловкость + 1";
+                break;
+            case 3:
+                hero.getPerks().add(POISON);
+                result = POISON.getDescription();
+                break;
+        }
+        return result;
     }
 
     @Override

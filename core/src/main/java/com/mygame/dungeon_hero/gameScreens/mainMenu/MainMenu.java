@@ -26,7 +26,6 @@ public class MainMenu implements Screen {
 
     @Override
     public void show() {
-        Assets.initMainAtlases();
         Assets.changeBg("mainMenu.png");
         Assets.finishAll();
         background = new Image(Assets.getBgTexture("mainMenu.png"));

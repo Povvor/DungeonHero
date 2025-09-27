@@ -52,7 +52,7 @@ public class Battle {
         int damage = 0;
         boolean isAttackSuccess = isAttackSuccess(attacker, defender);
         if (isAttackSuccess) {
-            damage = attacker.getDamage();
+            damage = attacker.getDamage() + attacker.getStrength();
             damage = calculateAttackBuffs(damage);
             damage = calculateDefenderBuffs(damage);
         }

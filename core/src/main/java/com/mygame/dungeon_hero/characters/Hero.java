@@ -17,16 +17,16 @@ import java.util.Random;
 public class Hero extends GameCharacter {
     private @Getter @Setter Weapons weapon;
     private static Random random = new Random();
-    private @Getter List<Integer> classLevels;
+    private @Getter @Setter String lastLvlUpBonus;
     private @Getter int level;
 
 
-    public Hero(int input) {
+    public Hero(int startClassIndex) {
         this.setStrength(random.nextInt(10,100));
         this.setAgility(random.nextInt(10,100));
         this.setEndurance(random.nextInt(10,100));
         this.setClasses(Arrays.asList(new Bandit(), new Warior(), new Barbarian()));
-        getClasses().get(input).lvlUp(this);
+        getClasses().get(startClassIndex).lvlUp(this);
         this.setDamage(weapon.getDamage());
         this.setMaxHealth(this.getHealth());
         updateHeroSprite();

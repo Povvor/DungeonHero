@@ -1,15 +1,54 @@
 package com.mygame.dungeon_hero.characters;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum Perks {
-    SNEAK_ATTACK,
-    RUSH_ACTION,
-    FURY,
-    SHIELD,
-    POISON,
-    STONE_SKIN,
-    FIRE_BREATH,
-    SLASH_IMMUNITY,
-    BLUDGEONING_WEAKNESS;
+    SNEAK_ATTACK("Скрытая атака: \n" +
+        "+1 к урону если \n" +
+        "ловкость персонажа \n" +
+        "выше ловкости цели "),
+    RUSH_ACTION("Порыв к действию: \n" +
+        "В первый ход наносит \n" +
+        "двойной урон \n" +
+        "оружием "),
+    FURY("Ярость: \n" +
+        "+2 к урону в первые 3 \n" +
+        "хода, потом -1 к урону "),
+    SHIELD("ит: -3 к получаемому \n" +
+        "урону если сила \n" +
+        "персонажа выше \n" +
+        "силы атакующего "),
+    POISON("Яд: \n" +
+        "Наносит \n" +
+        "дополнительные +1 \n" +
+        "урона на втором \n" +
+        "ходу, +2 на третьем \n" +
+        "и так далее."),
+    STONE_SKIN("Каменная кожа: \n" +
+        "Получаемый урон \n" +
+        "снижается на \n" +
+        "значение \n" +
+        "выносливости "),
+    FIRE_BREATH("Каждый 3-й ход \n" +
+        "дышит огнём, \n" +
+        "нанося \n" +
+        "дополнительно 3 \n" +
+        "урона "),
+    SLASH_IMMUNITY("Рубящее оружие не \n" +
+        "наносит ему урона \n" +
+        "(но урон от силы и \n" +
+        "прочих \n" +
+        "особенностей, даже \n" +
+        "\"порыва к действию\" \n" +
+        "воина, работает)"),
+    BLUDGEONING_WEAKNESS("Получает вдвое \n" +
+        "больше урона, если \n" +
+        "его бьют дробящим \n" +
+        "оружием");
+    private final String description;
 }
 
 

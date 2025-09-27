@@ -3,6 +3,7 @@ package com.mygame.dungeon_hero.gameScreens.levels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -13,7 +14,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygame.dungeon_hero.assetManger.Assets;
 import com.mygame.dungeon_hero.assetManger.AtlasType;
 import com.mygame.dungeon_hero.characters.GameCharacter;
+import com.mygame.dungeon_hero.characters.Hero;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
+import com.mygame.dungeon_hero.gameScreens.levels.winscreen.WinScreenPanel;
+
 import static com.badlogic.gdx.scenes.scene2d.ui.Value.*;
 
 public class BattleScreen implements Screen {
@@ -89,8 +93,8 @@ public class BattleScreen implements Screen {
         float centerY = H * 0.50f;
 
         // старт и анимация въезда
-        float heroStartX  = W * 0.30f;
-        float enemyStartX = W * 0.70f;
+        float heroStartX  = W * 0.25f;
+        float enemyStartX = W * 0.75f;
         heroSprite.setPosition(heroStartX,  centerY, Align.center);
         enemySprite.setPosition(enemyStartX, centerY, Align.center);
         heroSprite.addAction(Actions.sequence(
@@ -141,6 +145,15 @@ public class BattleScreen implements Screen {
 
         // когда спрайты «доехали» — сообщаем наружу
         stage.addAction(Actions.sequence(Actions.delay(2f), Actions.run(onCharReady)));
+
+        WinScreenPanel buttons = new WinScreenPanel((Hero) hero, enemy.getLoot(), W, H);
+        Stack table = buttons.getPanel();
+        table.setFillParent(true);
+        table.setPosition(0, H * 3, Align.center);
+        stage.addActor(table);
+        table.addAction(
+            Actions.moveToAligned(W / 2f, H / 2f, Align.center, 3, Interpolation.bounceIn)
+        );
     }
 
     public void playAttack(boolean isHeroAttacking, boolean isAttackSuccessfull, int damage, Runnable onAttackAniComplete) {

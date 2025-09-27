@@ -13,16 +13,11 @@ import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.assetManger.Assets;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
 
-// Ваши классы логики, например, GameLogic или что-то подобное
-// import your.game.logic.GameLogic;
-
 public class GameScreen implements Screen {
     public  Stage stage;
     private final GameCore game;
     private Image heroIcon;
     private Image background;
-    // Ваша игровая логика (инициализируйте здесь)
-    // private GameLogic gameLogic;
 
     public GameScreen(GameCore game) {
         this.game = game;
@@ -81,6 +76,5 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        // gameLogic.dispose(); // Если логика имеет ресурсы для очистки
     }
 }

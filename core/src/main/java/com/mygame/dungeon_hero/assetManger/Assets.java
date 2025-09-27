@@ -15,6 +15,7 @@ public final class Assets {
 
     public static String previousBg;
     public static String currentBg;
+    public static String winningBg = "assets/backgrounds/winbg.png";
 
     public static Texture getOrLoadTexture(String path) {
         if (!am.isLoaded(path)) {
@@ -38,6 +39,7 @@ public final class Assets {
         am.load("assets/textures/hero.atlas", TextureAtlas.class);
         am.load("assets/textures/misc.atlas", TextureAtlas.class);
         am.load("assets/textures/weapons.atlas", TextureAtlas.class);
+        am.load(winningBg, Texture.class);
     }
 
     public static Texture getBgTexture(String name) {
@@ -46,7 +48,7 @@ public final class Assets {
 
     public static TextureRegion getRegion(AtlasType atlasType, String regionName) {
         if (!am.isLoaded(atlasType.getPath())) {
-            throw new IllegalStateException("Атлас не загружен: " + atlasType);
+            throw new IllegalStateException("Атлас не загружен: " + atlasType + " " + regionName);
         }
         TextureAtlas atlas = am.get(atlasType.getPath(), TextureAtlas.class);
         TextureRegion region = atlas.findRegion(regionName);

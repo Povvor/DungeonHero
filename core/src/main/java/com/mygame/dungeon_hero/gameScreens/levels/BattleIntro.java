@@ -46,16 +46,16 @@ public class BattleIntro implements Screen {
         float H = stage.getViewport().getWorldHeight();
 
         // целевые точки: центры левой/правой половины
-        float heroXPos = W * 0.30f;
-        float enemyXPos = W * 0.70f;
+        float heroXPos = W * 0.25f;
+        float enemyXPos = W * 0.75f;
         float centerY = H * 0.50f;
 
         // насколько «за экран» уводим старт (процент от высоты экрана)
         float offsetY = H * 0.12f;
 
         // стартовые позиции — строго по центру актёра
-        heroImage.setPosition (heroXPos,  H + heroImage.getHeight() + offsetY,  Align.center); // сверху-вне
-        enemyImage.setPosition(enemyXPos, -enemyImage.getHeight() - offsetY,    Align.center); // снизу-вне
+        heroImage.setPosition (heroXPos,  H + heroImage.getHeight() + offsetY, Align.center); // сверху-вне
+        enemyImage.setPosition(enemyXPos, -enemyImage.getHeight() - offsetY, Align.center); // снизу-вне
 
         // размер «VS» — от меньшей стороны экрана
         float vsSize = Math.min(W, H) * 0.50f; // 18% от min(W,H)

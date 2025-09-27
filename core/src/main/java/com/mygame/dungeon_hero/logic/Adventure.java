@@ -4,7 +4,7 @@ import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Enemies;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.gameScreens.levels.WinScreen;
+import com.mygame.dungeon_hero.gameScreens.levels.winscreen.WinScreen;
 
 import java.util.concurrent.ThreadLocalRandom;
 

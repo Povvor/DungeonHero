@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import static com.mygame.dungeon_hero.characters.Perks.*;
 import static com.mygame.dungeon_hero.characters.wepons.Weapons.CLUB;
+import static com.mygame.dungeon_hero.characters.wepons.Weapons.DAGGER;
 
 public class Barbarian implements HeroClass {
     private static final int HEALTH_PER_LVL = 6;
@@ -30,6 +31,25 @@ public class Barbarian implements HeroClass {
                 break;
         }
         return hero;
+    }
+
+    @Override
+    public String getLvlUpDescription(Hero hero) {
+        String result = "";
+        switch (lvl + 1) {
+            case 1:
+                result = "Стартовое оружие: Дубина\n" + "Урон оружием "
+                    + CLUB.getDamage() + "\n" + FURY.getDescription();
+                break;
+            case 2:
+                result = STONE_SKIN.getDescription();
+                break;
+            case 3:
+                hero.getPerks().add(POISON);
+                result = "Выносливость + 1";
+                break;
+        }
+        return result;
     }
 
     @Override

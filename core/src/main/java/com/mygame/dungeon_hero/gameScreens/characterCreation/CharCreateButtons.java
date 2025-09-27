@@ -1,6 +1,5 @@
 package com.mygame.dungeon_hero.gameScreens.characterCreation;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -9,8 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.gameScreens.UIManager;
-import com.mygame.dungeon_hero.gameScreens.levels.BattleScreen;
 
 public class CharCreateButtons {
     private final TextButton banditButton;
