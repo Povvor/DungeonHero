@@ -15,9 +15,11 @@ public class Barbarian implements HeroClass {
     @Override
     public Hero lvlUp(Hero hero) {
         lvl++;
-        hero.setHealth(hero.getHealth() + HEALTH_PER_LVL);
+        hero.setMaxHealth(hero.getMaxHealth() + HEALTH_PER_LVL);
         switch (lvl) {
             case 1:
+                hero.setMaxHealth(hero.getMaxHealth() + hero.getEndurance());
+                hero.fullHeal();
                 if (hero.getWeapon() == null) {
                     hero.setWeapon(CLUB);
                 }
@@ -45,7 +47,6 @@ public class Barbarian implements HeroClass {
                 result = STONE_SKIN.getDescription();
                 break;
             case 3:
-                hero.getPerks().add(POISON);
                 result = "Выносливость + 1";
                 break;
         }

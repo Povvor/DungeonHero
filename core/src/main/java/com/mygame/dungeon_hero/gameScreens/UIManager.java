@@ -9,11 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygame.dungeon_hero.characters.classes.Barbarian;
+import lombok.Getter;
 
 public class UIManager {
+    @Getter
     private static Skin skin;
+    @Getter
     private static BitmapFont font;
-    private static BitmapFont redFont;
 
     // Метод для инициализации шрифта и скина
     public static void init() {
@@ -35,7 +37,7 @@ public class UIManager {
         font = generator.generateFont(parameter);// Генерация шрифта
         parameter.color = Color.RED;
         parameter.borderColor = Color.WHITE;
-        redFont = generator.generateFont(parameter);// Генерация белого шрифта
+        BitmapFont redFont = generator.generateFont(parameter);// Генерация белого шрифта
 
         generator.dispose();  // Освобождение ресурсов
 
@@ -51,13 +53,6 @@ public class UIManager {
         skin.add("redLabel", redLabel);
     }
 
-    public static Skin getSkin() {
-        return skin;
-    }
-
-    public static BitmapFont getFont() {
-        return font;
-    }
     public static Label.LabelStyle getLabelStyle() {
         return skin.get(Label.LabelStyle.class);
     }

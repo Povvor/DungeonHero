@@ -48,4 +48,8 @@ public class GameCharacter {
             health = 0;
         }
     }
+
+    public void fullHeal() {
+        health = maxHealth;
+    }
 }

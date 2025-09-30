@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public final class Assets {
     private Assets() {}
 
-    // Глобальный менеджер
     public static final AssetManager am = new AssetManager();
 
     public static final String BG_FOLDER = "assets/backgrounds/";

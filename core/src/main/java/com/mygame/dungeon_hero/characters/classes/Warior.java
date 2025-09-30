@@ -15,12 +15,15 @@ public class Warior implements HeroClass {
     @Override
     public Hero lvlUp(Hero hero) {
         lvl++;
-        hero.setHealth(hero.getHealth() + HEALTH_PER_LVL);
+        hero.setMaxHealth(hero.getMaxHealth() + HEALTH_PER_LVL);
+        hero.fullHeal();
         switch (lvl) {
             case 1:
                 if (hero.getWeapon() == null) {
                     hero.setWeapon(SWORD);
                 }
+                hero.setMaxHealth(hero.getMaxHealth() + hero.getEndurance());
+                hero.fullHeal();
                 hero.getPerks().add(RUSH_ACTION);
                 hero.setLastLvlUpBonus(RUSH_ACTION.getDescription());
                 break;
@@ -48,7 +51,6 @@ public class Warior implements HeroClass {
                 result = SHIELD.getDescription();
                 break;
             case 3:
-                hero.getPerks().add(POISON);
                 result = "Сила + 1";
                 break;
         }

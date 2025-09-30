@@ -1,9 +1,7 @@
 package com.mygame.dungeon_hero.logic;
 
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.characters.Enemies;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.gameScreens.levels.BattleIntro;
 import lombok.Getter;
 
 public class GameWorld {

@@ -1,15 +1,22 @@
 
 misc.png
-size: 2048, 1024
+size: 4096, 2048
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+diedLabel
+  rotate: false
+  xy: 1, 724
+  size: 1502, 1024
+  orig: 1536, 1024
+  offset: 11, 0
+  index: -1
 heart
   rotate: false
-  xy: 790, 291
-  size: 468, 431
-  orig: 580, 532
-  offset: 52, 47
+  xy: 1505, 724
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
   index: -1
 vsLabel
   rotate: false

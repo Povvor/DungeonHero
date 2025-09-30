@@ -1,9 +1,10 @@
-package com.mygame.dungeon_hero.gameScreens.levels;
+package com.mygame.dungeon_hero.gameScreens.battle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -16,7 +17,6 @@ import com.mygame.dungeon_hero.assetManger.AtlasType;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Hero;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
-import com.mygame.dungeon_hero.gameScreens.levels.winscreen.WinScreenPanel;
 
 import static com.badlogic.gdx.scenes.scene2d.ui.Value.*;
 
@@ -29,16 +29,18 @@ public class BattleScreen implements Screen {
     private final Image heroSprite;
     private final Image enemySprite;
     private final Image background;
-    private Label heroHealthLabel;
-    private Label enemyHealthLabel;
+    private final Label heroHealthLabel;
+    private final Label enemyHealthLabel;
+    private final Label battleCountLabel;
     private final Runnable onCharReady;
     private final float W;
     private final float H;
     private final float heroXPos;
     private final float enemyXPos;
     private final Label damageLabel;
+    private final WinScreenPanel winScreenPanel;
 
-    public BattleScreen(int battleCount, GameCharacter hero, GameCharacter enemy, Runnable onCharReady) {
+    public BattleScreen(int battleCount, GameCharacter hero, GameCharacter enemy, Runnable onCharReady, Runnable onBattleComplete) {
         this.hero = hero;
         this.heroSprite = new Image(hero.getSprite());
         heroHealthLabel = new Label("", skin,"label");
@@ -49,7 +51,11 @@ public class BattleScreen implements Screen {
         enemyHealthLabel = new Label("", skin,"label");
         enemyHealthLabel.setFontScale(2f);
 
-        background = new Image(Assets.getBgTexture("meadow.png"));
+        this.battleCountLabel = new Label("Бой: " + battleCount + " из 5", skin, "label");
+
+        String bgName = enemy.getName() + MathUtils.random(1, 2) + ".png";
+        Assets.changeBg(bgName);
+        background = new Image(Assets.getBgTexture(bgName));
 
         this.onCharReady = onCharReady;
 
@@ -63,6 +69,7 @@ public class BattleScreen implements Screen {
         damageLabel = new Label("", skin, "redLabel");
         damageLabel.setFontScale(2f);
         damageLabel.setVisible(false);
+        winScreenPanel = new WinScreenPanel((Hero) hero, enemy.getLoot(), W, H, onBattleComplete);
     }
 
     @Override
@@ -119,15 +126,17 @@ public class BattleScreen implements Screen {
             percentHeight(0.00f, hud),
             percentWidth (0.02f, hud)
         );
-        hud.getColor().a = 0f;
+        hud.getColor().a = 1f;
         hud.addAction(Actions.sequence(Actions.delay(0.8f), Actions.fadeIn(0.6f)));
         root.add(hud); // будет поверх арены
 
         heroHealthLabel.setText(hero.getHealth() + "/" + hero.getMaxHealth());
+
         enemyHealthLabel.setText(enemy.getHealth() + "/" + enemy.getMaxHealth());
 
         // первая строка — тексты
         hud.add(heroHealthLabel).left().expandX();
+        hud.add(battleCountLabel).center();
         hud.add(enemyHealthLabel).right().expandX();
         hud.row();
 
@@ -138,22 +147,16 @@ public class BattleScreen implements Screen {
             .left()
             .size(percentHeight(0.05f, hud), percentHeight(0.05f, hud))
             .padTop(percentHeight(0.012f, hud));
+        hud.add().expandX();
         hud.add(enemyHeart)
             .right()
             .size(percentHeight(0.05f, hud), percentHeight(0.05f, hud))
             .padTop(percentHeight(0.012f, hud));
 
+
+
         // когда спрайты «доехали» — сообщаем наружу
         stage.addAction(Actions.sequence(Actions.delay(2f), Actions.run(onCharReady)));
-
-        WinScreenPanel buttons = new WinScreenPanel((Hero) hero, enemy.getLoot(), W, H);
-        Stack table = buttons.getPanel();
-        table.setFillParent(true);
-        table.setPosition(0, H * 3, Align.center);
-        stage.addActor(table);
-        table.addAction(
-            Actions.moveToAligned(W / 2f, H / 2f, Align.center, 3, Interpolation.bounceIn)
-        );
     }
 
     public void playAttack(boolean isHeroAttacking, boolean isAttackSuccessfull, int damage, Runnable onAttackAniComplete) {
@@ -212,6 +215,37 @@ public class BattleScreen implements Screen {
             Actions.run(onDone)));
     }
 
+    public void animateWinScreen() {
+        Stack table = winScreenPanel.getPanel();
+        table.setFillParent(true);
+        table.setPosition(0, H * 3, Align.center);
+        stage.addActor(table);
+        table.addAction(
+            Actions.moveToAligned(W / 2f, H / 2f, Align.center, 3, Interpolation.bounceIn)
+        );
+    }
+
+    public void animateLoseScreen(Runnable runnable) {
+        Image diedLabel = new Image(Assets.getRegion(AtlasType.MISC, "diedLabel"));
+        Table table = new Table();
+        table.setFillParent(true);
+        table.add(diedLabel);
+        stage.addActor(table);
+        stage.addAction(Actions.sequence(
+            Actions.delay(2f),
+            Actions.fadeOut(1f),
+            Actions.delay(1f),
+            Actions.run(runnable)));
+    }
+
+    public void playTitles(Runnable runnable) {
+        Assets.changeBg("completeGame.png");
+        Image title = new Image(Assets.getBgTexture("completeGame.png"));
+        title.getColor().a = 0;
+        stage.addActor(title);
+        title.addAction(Actions.fadeIn(0.5f));
+    }
+
 
     @Override
     public void render(float delta) {
@@ -230,7 +264,6 @@ public class BattleScreen implements Screen {
 
     @Override
     public void hide() {
-        //stage.dispose();
     }
 
     @Override

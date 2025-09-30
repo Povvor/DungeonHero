@@ -16,6 +16,6 @@ public class PackTool {
         TexturePacker.process(s,
             "D:\\packtool\\raw",     // откуда брать png
             "D:\\packtool\\cook",         // куда сложить
-            "guns");                  // имя атласа: game.atlas + game.png
+            "misc");                  // имя атласа: game.atlas + game.png
     }
 }

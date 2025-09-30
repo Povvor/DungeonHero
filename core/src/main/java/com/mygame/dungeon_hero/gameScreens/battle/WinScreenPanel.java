@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.gameScreens.levels.winscreen;
+package com.mygame.dungeon_hero.gameScreens.battle;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -33,25 +33,38 @@ public class WinScreenPanel {
     private final float W;
     private final float H;
 
-    public WinScreenPanel(Hero hero, Weapons weapon, float width, float height) {
+    public WinScreenPanel(Hero hero, Weapons weapon, float width, float height, Runnable onBattleComplete) {
         this.W = width;
         this.H = height;
 
-        nameLabel = new Label("Вам выпал:", skin, "label");
+        String labelText = "Вам выпал: " + weapon.getName() + "\n" + "Урон: " + weapon.getDamage() + "\n" + weapon.getDamageType().getDescription();
+        nameLabel = new Label(labelText, skin, "label");
 
         this.droppedWeapon = new Image(weapon.getSprite());
 
-        changeWeaponButton = new TextButton(weapon.getName(), skin, "big");
+        changeWeaponButton = new TextButton("ВЗЯТЬ!!!", skin, "big");
         banditUpButton = new TextButton("Путь Разбойника", skin, "big");
         wariorUpButton = new TextButton("Путь Воина", skin, "big");
         barbarianUpButton = new TextButton("Путь Варвара", skin, "big");
         this.previewTextures = new ArrayList<>();
         this.descriptions = new ArrayList<>();
 
-        for (Map.Entry<Image, String> entry : initPreviews(hero).entrySet()) {
-            previewTextures.add(entry.getKey());
-            descriptions.add(new Label(entry.getValue(), skin,"label"));
+        if (hero.getLevel() < 3) {
+            for (Map.Entry<Image, String> entry : initPreviews(hero).entrySet()) {
+                previewTextures.add(entry.getKey());
+                descriptions.add(new Label(entry.getValue(), skin,"label"));
+            }
+        } else {
+            for (int i = 0; i < 3; i++) {
+                previewTextures.add(new Image());
+                descriptions.add(new Label(" ", skin,"label"));
+            }
+            banditUpButton.setVisible(false);
+            barbarianUpButton.setVisible(false);
+            descriptions.get(1).setText("У вас максимальный уровень!");
+            wariorUpButton.setText("Продолжить!");
         }
+
         this.background = new Image(Assets.getBgTexture("winbg.png"));
 
         banditUpButton.addListener(new ClickListener() {
@@ -59,7 +72,7 @@ public class WinScreenPanel {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
 
-                wariorUpButton.setColor(1, 0.8f, 0.8f, 1); // подсветка
+                wariorUpButton.setColor(1, 0.8f, 0.8f, 1);
                 previewTextures.get(0).setVisible(false);
                 descriptions.get(0).setVisible(true);
             }
@@ -74,10 +87,10 @@ public class WinScreenPanel {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                hero.lvlUp(0);
+                onBattleComplete.run();
             }
         });
-
 
         wariorUpButton.addListener(new ClickListener() {
             @Override
@@ -99,6 +112,12 @@ public class WinScreenPanel {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if (hero.getLevel() < 3) {
+                    hero.lvlUp(1);
+                    onBattleComplete.run();
+                } else {
+                    onBattleComplete.run();
+                }
 
             }
         });
@@ -123,7 +142,27 @@ public class WinScreenPanel {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                hero.lvlUp(2);
+                onBattleComplete.run();
 
+            }
+        });
+
+        changeWeaponButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                changeWeaponButton.setColor(1, 0.8f, 0.8f, 1);
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                changeWeaponButton.setColor(1, 1, 1, 1);
+            }
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                hero.setWeapon(weapon);
+                changeWeaponButton.setVisible(false);
             }
         });
 
@@ -189,7 +228,7 @@ public class WinScreenPanel {
         return stack;
     }
 
-    public Map<Image, String> initPreviews (Hero hero) {
+    private Map<Image, String> initPreviews (Hero hero) {
         Map<Image, String> previews = new LinkedHashMap<>();
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < hero.getClasses().size(); i++) {

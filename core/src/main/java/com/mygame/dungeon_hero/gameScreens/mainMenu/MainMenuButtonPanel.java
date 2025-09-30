@@ -1,5 +1,6 @@
 package com.mygame.dungeon_hero.gameScreens.mainMenu;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -35,7 +36,7 @@ public class MainMenuButtonPanel {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Логика при нажатии на "Выйти из игры"
-                System.exit(0); // Выход из приложения
+                Gdx.app.exit(); // Выход из приложения
             }
         });
     }

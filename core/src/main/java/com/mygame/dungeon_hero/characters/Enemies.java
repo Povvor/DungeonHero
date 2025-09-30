@@ -8,7 +8,6 @@ import com.mygame.dungeon_hero.characters.wepons.Weapons;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,17 +42,6 @@ public enum Enemies {
         this.sprite = texture;
         this.loot = loot;
         this.perks = Arrays.asList(perks);
-    }
-
-    Enemies(String name, int health, int damage, int strength, int agility, int endurance, DamageType damageType, TextureRegion texture, Perks... perks) {
-        this.name = name;
-        this.health = health;
-        this.damage = damage;
-        this.strength = strength;
-        this.agility = agility;
-        this.endurance = endurance;
-        this.sprite = texture;
-        this.perks = Arrays.asList(perks);
-        this.damageType = damageType;
+        this.damageType = DamageType.MONSTER;
     }
 }

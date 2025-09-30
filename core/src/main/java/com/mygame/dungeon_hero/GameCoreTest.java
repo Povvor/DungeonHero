@@ -1,17 +1,15 @@
 package com.mygame.dungeon_hero;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygame.dungeon_hero.assetManger.Assets;
 import com.mygame.dungeon_hero.characters.Enemies;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Hero;
+import com.mygame.dungeon_hero.gameScreens.CreditsScreen;
 import com.mygame.dungeon_hero.gameScreens.UIManager;
-import com.mygame.dungeon_hero.gameScreens.levels.winscreen.WinScreen;
-import com.mygame.dungeon_hero.gameScreens.mainMenu.MainMenu;
+import com.mygame.dungeon_hero.logic.Adventure;
+import com.mygame.dungeon_hero.logic.Battle;
 import com.mygame.dungeon_hero.logic.GameWorld;
 import lombok.Getter;
-import org.lwjgl.Sys;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class GameCoreTest extends GameCore {
@@ -22,7 +20,19 @@ public class GameCoreTest extends GameCore {
         Assets.initMainAtlases();
         Assets.finishAll();
         UIManager.init();
-        Hero hero = new Hero(1);
-        setScreen(new WinScreen(new Hero(0), new GameCharacter(Enemies.DRAGON)));
+        Hero hero = new Hero(0);
+        hero.lvlUp(0);
+        hero.lvlUp(0);
+        hero.setMaxHealth(3000000);
+        hero.setHealth(300000);
+        hero.fullHeal();
+        hero.setAgility(0);
+        GameCharacter enemy = new GameCharacter(Enemies.DRAGON);
+        enemy.setHealth(500);
+        Adventure adventure = new Adventure(hero, this);
+        Runnable runnable = () -> System.out.println("GO");
+        Battle battle = new Battle(hero, enemy, this, 5, runnable);
+        //setScreen(new CreditsScreen(runnable));
+        battle.playIntro();
     }
 }

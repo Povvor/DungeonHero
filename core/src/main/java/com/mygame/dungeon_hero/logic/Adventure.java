@@ -1,18 +1,19 @@
 package com.mygame.dungeon_hero.logic;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.mygame.dungeon_hero.GameCore;
+import com.mygame.dungeon_hero.assetManger.SoundManager;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Enemies;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.gameScreens.levels.winscreen.WinScreen;
-
-import java.util.concurrent.ThreadLocalRandom;
+import com.mygame.dungeon_hero.gameScreens.CreditsScreen;
 
 public class Adventure {
     private final Enemies[] ENEMIES = Enemies.values();
     private Hero hero;
     private GameCore game;
-    private int battleCount = 1;
+    private int battleCount = 0;
+    private Battle battle;
 
 
     public Adventure(Hero hero, GameCore game) {
@@ -24,19 +25,23 @@ public class Adventure {
         nextBattle();
     }
 
-    private void checkStatusAfterBattle(GameCharacter enemy) {
-        if (hero.getHealth() <= 0) {
-            game.setScreen(new WinScreen(hero, enemy));
-        } else {
-            game.setScreen(new WinScreen(hero, enemy));
-        }
-    }
-
     private void nextBattle() {
-        int random = ThreadLocalRandom.current().nextInt(0, ENEMIES.length);
+        if (battleCount >= 5) {
+            System.out.println("Battle over!");
+            adventureComplete();
+            return;
+        }
+        battleCount++;
+        int random = MathUtils.random(0, ENEMIES.length - 1);
         Enemies randomEnemy  = ENEMIES[random];
         GameCharacter enemy = new GameCharacter(randomEnemy);
-        Battle battle = new Battle(hero, enemy, game, battleCount, () -> checkStatusAfterBattle(enemy));
+        hero.fullHeal();
+        battle = new Battle(hero, enemy, game, battleCount, this::nextBattle);
         battle.playIntro();
+        SoundManager.loadAndPlayMusic(enemy.getName());
+    }
+
+    private void adventureComplete() {
+        game.setScreen(new CreditsScreen(() -> game.restartGame()));
     }
 }

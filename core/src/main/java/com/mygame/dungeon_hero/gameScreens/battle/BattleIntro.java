@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.gameScreens.levels;
+package com.mygame.dungeon_hero.gameScreens.battle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

@@ -1,0 +1,10 @@
+{
+  "sections": [
+    { "title": "СОЗДАТЕЛЬ ИГРЫ", "names": ["Povvor"] },
+    { "title": "ПРОГРАММИРОВАНИЕ", "names": ["Povvor"] },
+    { "title": "ГРАФИКА", "names": ["DALL-E 3", "Povvor"] },
+    { "title": "ЗВУК И МУЗЫКА", "names": ["Suno AI", "Povvor"] },
+    { "title": "ТЕСТИРОВАНИЕ", "names": ["Povvor"] },
+    { "title": "", "names": ["СПАСИБО ЗА ИГРУ!"] }
+  ]
+}

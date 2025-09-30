@@ -14,12 +14,14 @@ public class Bandit implements HeroClass {
 
     public Hero lvlUp(Hero hero) {
         lvl++;
-        hero.setHealth(hero.getHealth() + HEALTH_PER_LVL);
+        hero.setMaxHealth(hero.getMaxHealth() + HEALTH_PER_LVL);
         switch (lvl) {
             case 1:
                 if (hero.getWeapon() == null) {
                     hero.setWeapon(DAGGER);
                 }
+                hero.setMaxHealth(hero.getMaxHealth() + hero.getEndurance());
+                hero.fullHeal();
                 hero.getPerks().add(SNEAK_ATTACK);
                 break;
             case 2:
@@ -44,7 +46,6 @@ public class Bandit implements HeroClass {
                 result = "Ловкость + 1";
                 break;
             case 3:
-                hero.getPerks().add(POISON);
                 result = POISON.getDescription();
                 break;
         }
