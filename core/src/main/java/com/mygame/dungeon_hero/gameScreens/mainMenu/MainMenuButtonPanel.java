@@ -1,6 +1,5 @@
 package com.mygame.dungeon_hero.gameScreens.mainMenu;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -8,44 +7,60 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.gameScreens.characterCreation.GameScreen;
+import com.mygame.dungeon_hero.uiManagers.SoundManager;
 import lombok.Getter;
 
 @Getter
 public class MainMenuButtonPanel {
     private final TextButton startButton;
+    private final TextButton compendiumButton;
+    private final TextButton bgmSwitchButton;
     private final TextButton exitButton;
 
-    public MainMenuButtonPanel(Skin skin, GameCore game) {
-        // Создаем стиль для кнопок с кастомным шрифтом
-
-        // Создаем кнопки с этим стилем
+    public MainMenuButtonPanel(Skin skin, GameCore game, Runnable showCompendium) {
         startButton = new TextButton("Начать игру", skin, "big");
         exitButton = new TextButton("Выйти из игры", skin, "big");
+        bgmSwitchButton = new TextButton("Выключить фоновую музыку", skin, "big");
+        compendiumButton = new TextButton("Компендиум Монстров", skin, "big");
 
-        // Добавление логики на кнопку "Начать игру"
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Логика при нажатии на "Начать игру"
-                game.setScreen(new GameScreen(game)); // Переход к экрану игры
+                game.setScreen(new GameScreen(game));
             }
         });
 
-        // Добавление логики на кнопку "Выйти из игры"
+        compendiumButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showCompendium.run();
+            }
+        });
+
+        bgmSwitchButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                SoundManager.switchMute();
+            }
+        });
+
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Логика при нажатии на "Выйти из игры"
-                Gdx.app.exit(); // Выход из приложения
+                game.disposeAllAnfQuit();
             }
         });
     }
 
     public Table getPanel() {
         Table table = new Table();
-        table.add(startButton).width(800).pad(10);
+        table.add(startButton).width(800);
         table.row();
-        table.add(exitButton).width(800).pad(10);
+        table.add(compendiumButton).width(800);
+        table.row();
+        table.add(bgmSwitchButton).width(800);
+        table.row();
+        table.add(exitButton).width(800);
         return table;
     }
 

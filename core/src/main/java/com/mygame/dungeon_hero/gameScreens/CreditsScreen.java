@@ -11,7 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.assetManger.Assets;
+import com.mygame.dungeon_hero.uiManagers.TextureManager;
+import com.mygame.dungeon_hero.uiManagers.UIManager;
 
 public class CreditsScreen implements Screen {
     private Stage stage;
@@ -28,9 +29,9 @@ public class CreditsScreen implements Screen {
         float W = stage.getViewport().getScreenWidth();
         float H = stage.getViewport().getScreenHeight();
 
-        Assets.changeBg("completeGame.png");
-        Assets.finishAll();
-        Image background = new Image(Assets.getBgTexture("completeGame.png"));
+        TextureManager.changeBg("completeGame.png");
+        TextureManager.finishAll();
+        Image background = new Image(TextureManager.getBgTexture("completeGame.png"));
 
         String credits = Gdx.files.internal("assets/fonts/credits.txt").readString();
         Label creditsLabel = new Label(credits, UIManager.getSkin(), "label");

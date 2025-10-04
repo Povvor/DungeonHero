@@ -10,14 +10,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.assetManger.Assets;
-import com.mygame.dungeon_hero.gameScreens.UIManager;
+import com.mygame.dungeon_hero.uiManagers.TextureManager;
+import com.mygame.dungeon_hero.uiManagers.UIManager;
 
 public class GameScreen implements Screen {
     public  Stage stage;
     private final GameCore game;
-    private Image heroIcon;
-    private Image background;
 
     public GameScreen(GameCore game) {
         this.game = game;
@@ -25,8 +23,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        Assets.changeBg("meadow.png");
-        background = new Image(Assets.getBgTexture("meadow.png"));
+        TextureManager.changeBg("meadow.png");
+        Image background = new Image(TextureManager.getBgTexture("meadow.png"));
         CharCreateButtons buttons = new CharCreateButtons(UIManager.getSkin(), game, this);
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -39,7 +37,7 @@ public class GameScreen implements Screen {
     }
 
     public void drawHeroIcon() {
-        heroIcon = new Image(game.getGameWorld().getHero().getSprite());
+        Image heroIcon = new Image(game.getGameWorld().getHero().getSprite());
         heroIcon.setSize(512, 512);
         heroIcon.setOrigin(Align.center);
         float w = stage.getViewport().getWorldWidth();

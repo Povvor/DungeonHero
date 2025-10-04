@@ -1,27 +1,37 @@
-package com.mygame.dungeon_hero.assetManger;
+package com.mygame.dungeon_hero.uiManagers;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-public final class Assets {
-    private Assets() {}
+public final class TextureManager {
+    private TextureManager() {}
 
     public static final AssetManager am = new AssetManager();
 
     public static final String BG_FOLDER = "assets/backgrounds/";
-
     public static String previousBg;
     public static String currentBg;
     public static String winningBg = "assets/backgrounds/winbg.png";
 
-    public static Texture getOrLoadTexture(String path) {
+    @Getter
+    @RequiredArgsConstructor
+    public enum AtlasType {
+        ENEMY("assets/textures/enemies.atlas"),
+        WEAPON("assets/textures/weapons.atlas"),
+        MISC("assets/textures/misc.atlas"),
+        HERO("assets/textures/hero.atlas");
+        private final String path;
+    }
+
+    public static void loadTexture(String path) {
         if (!am.isLoaded(path)) {
             am.load(path, Texture.class);
-            am.finishLoadingAsset(path); // блокирующая загрузка ТОЛЬКО этого ассета
+            am.finishLoadingAsset(path);
         }
-        return am.get(path, Texture.class);
     }
 
     public static void changeBg(String bg) {
@@ -29,7 +39,7 @@ public final class Assets {
             unload(previousBg);
             previousBg = currentBg;
         }
-        getOrLoadTexture(BG_FOLDER + bg);
+        loadTexture(BG_FOLDER + bg);
         currentBg = BG_FOLDER + bg;
     }
 
@@ -47,23 +57,25 @@ public final class Assets {
 
     public static TextureRegion getRegion(AtlasType atlasType, String regionName) {
         if (!am.isLoaded(atlasType.getPath())) {
-            throw new IllegalStateException("Атлас не загружен: " + atlasType + " " + regionName);
+            throw new IllegalStateException("Atlas is not loaded" + atlasType + " " + regionName);
         }
         TextureAtlas atlas = am.get(atlasType.getPath(), TextureAtlas.class);
         TextureRegion region = atlas.findRegion(regionName);
         if (region == null) {
-            throw new IllegalArgumentException("Регион '" + regionName + "' не найден в атласе " + atlasType.getPath());
+            throw new IllegalArgumentException("Region'" + regionName + "'not found in atlas:" + atlasType.getPath());
         }
         return region;
     }
 
-    public static boolean update() { return am.update(); }  // зови каждый кадр на экране загрузки
-    public static float progress() { return am.getProgress(); }
-    public static void finishAll() { am.finishLoading(); }  // блокирующая — вся очередь
+    public static void finishAll() {
+        am.finishLoading();
+    }
 
     public static void unload(String file) {
         if (am.isLoaded(file)) am.unload(file);
     }
 
-    public static void dispose() { am.dispose(); }
+    public static void dispose() {
+        am.dispose();
+    }
 }

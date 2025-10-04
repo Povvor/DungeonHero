@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.characters.classes;
+package com.mygame.dungeon_hero.characters.heroClasses;
 
 import com.mygame.dungeon_hero.characters.Hero;
 

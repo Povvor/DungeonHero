@@ -1,34 +1,34 @@
-package com.mygame.dungeon_hero.characters.classes;
+package com.mygame.dungeon_hero.characters.heroClasses;
 
 import com.mygame.dungeon_hero.characters.Hero;
 import lombok.Getter;
-import lombok.Setter;
 
 import static com.mygame.dungeon_hero.characters.Perks.*;
-import static com.mygame.dungeon_hero.characters.wepons.Weapons.*;
+import static com.mygame.dungeon_hero.characters.wepons.Weapons.CLUB;
 
-public class Bandit implements HeroClass {
-    private static final int HEALTH_PER_LVL = 4;
+public class Barbarian implements HeroClass {
+    private static final int HEALTH_PER_LVL = 6;
     private int lvl = 0;
-    private final @Getter String name  = "Разбойник";
+    private final @Getter String name  = "Варвар";
 
+    @Override
     public Hero lvlUp(Hero hero) {
         lvl++;
         hero.setMaxHealth(hero.getMaxHealth() + HEALTH_PER_LVL);
         switch (lvl) {
             case 1:
-                if (hero.getWeapon() == null) {
-                    hero.setWeapon(DAGGER);
-                }
                 hero.setMaxHealth(hero.getMaxHealth() + hero.getEndurance());
                 hero.fullHeal();
-                hero.getPerks().add(SNEAK_ATTACK);
+                if (hero.getWeapon() == null) {
+                    hero.changeWeapon(CLUB);
+                }
+                hero.getPerks().add(FURY);
                 break;
             case 2:
-                hero.setAgility(hero.getAgility() + 1);
+                hero.getPerks().add(STONE_SKIN);
                 break;
             case 3:
-                hero.getPerks().add(POISON);
+                hero.setEndurance(hero.getEndurance() + 1);
                 break;
         }
         return hero;
@@ -39,14 +39,14 @@ public class Bandit implements HeroClass {
         String result = "";
         switch (lvl + 1) {
             case 1:
-                result = "Стартовое оружие: Кинжал\n" + "Урон оружием "
-                    + DAGGER.getDamage() + "\n" + SNEAK_ATTACK.getDescription();
+                result = "Стартовое оружие: Дубина\n" + "Урон оружием "
+                    + CLUB.getDamage() + "\n" + FURY.getDescription();
                 break;
             case 2:
-                result = "Ловкость + 1";
+                result = STONE_SKIN.getDescription();
                 break;
             case 3:
-                result = POISON.getDescription();
+                result = "Выносливость + 1";
                 break;
         }
         return result;

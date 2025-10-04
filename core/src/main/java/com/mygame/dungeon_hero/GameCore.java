@@ -1,28 +1,49 @@
 package com.mygame.dungeon_hero;
 
 import com.badlogic.gdx.Game;
-import com.mygame.dungeon_hero.assetManger.Assets;
-import com.mygame.dungeon_hero.assetManger.SoundManager;
-import com.mygame.dungeon_hero.gameScreens.UIManager;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.mygame.dungeon_hero.gameScreens.overlay.OverlayManager;
+import com.mygame.dungeon_hero.uiManagers.TextureManager;
+import com.mygame.dungeon_hero.uiManagers.SoundManager;
+import com.mygame.dungeon_hero.uiManagers.UIManager;
 import com.mygame.dungeon_hero.gameScreens.mainMenu.MainMenu;
 import com.mygame.dungeon_hero.logic.GameWorld;
 import lombok.Getter;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class GameCore extends Game {
-    private @Getter GameWorld gameWorld = new GameWorld(this);
+    private final @Getter GameWorld gameWorld = new GameWorld(this);
+    private Screen mainMenu;
 
     @Override
     public void create() {
-        Assets.initMainAtlases();
+        TextureManager.initMainAtlases();
+        TextureManager.finishAll();
         UIManager.init();
         SoundManager.stopMusic();
-        setScreen(new MainMenu(this));
-
+        SoundManager.loadAllSfx();
+        OverlayManager.setGameCore(this);
+        mainMenu = new MainMenu(this);
+        setScreen(mainMenu);
     }
 
     public void restartGame() {
-        setScreen(new MainMenu(this));
+        setScreen(mainMenu);
         SoundManager.stopMusic();
+    }
+
+    public void disposeAllAnfQuit() {
+        this.dispose();
+        Gdx.app.exit();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        UIManager.dispose();
+        SoundManager.dispose();
+        TextureManager.dispose();
+        mainMenu.dispose();
     }
 }

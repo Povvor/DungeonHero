@@ -21,9 +21,6 @@ public class CharCreateButtons {
     public CharCreateButtons(Skin skin, GameCore game, GameScreen screen) {
         this.game = game;
         this.screen = screen;
-        // Создаем стиль для кнопок с кастомным шрифтом
-
-        // Создаем кнопки с этим стилем
 
         label = new Label("Выбери класс героя:", skin, "label");
         banditButton = new TextButton("Разбойник", skin, "big");
@@ -32,7 +29,6 @@ public class CharCreateButtons {
         startButton = new TextButton("Начать Приключение", skin, "big");
         startButton.setVisible(false);
 
-        // Добавление логики на кнопку "Начать игру"
         banditButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -42,7 +38,6 @@ public class CharCreateButtons {
             }
         });
 
-        // Добавление логики на кнопку "Выйти из игры"
         wariorButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

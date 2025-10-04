@@ -5,25 +5,26 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.assetManger.Assets;
-import com.mygame.dungeon_hero.assetManger.AtlasType;
+import com.mygame.dungeon_hero.uiManagers.TextureManager;
+import com.mygame.dungeon_hero.uiManagers.SoundManager;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.gameScreens.UIManager;
+import com.mygame.dungeon_hero.uiManagers.UIManager;
+import com.mygame.dungeon_hero.logic.Battle;
 
 import static com.badlogic.gdx.scenes.scene2d.ui.Value.*;
 
 public class BattleScreen implements Screen {
 
     private final Stage stage;
-    private final Skin skin = UIManager.getSkin();
     private final GameCharacter hero;
     private final GameCharacter enemy;
     private final Image heroSprite;
@@ -38,11 +39,14 @@ public class BattleScreen implements Screen {
     private final float heroXPos;
     private final float enemyXPos;
     private final Label damageLabel;
+    private final Label defenderPerksLabel;
+    private final Label attackerPerksLabel;
     private final WinScreenPanel winScreenPanel;
 
     public BattleScreen(int battleCount, GameCharacter hero, GameCharacter enemy, Runnable onCharReady, Runnable onBattleComplete) {
         this.hero = hero;
         this.heroSprite = new Image(hero.getSprite());
+        Skin skin = UIManager.getSkin();
         heroHealthLabel = new Label("", skin,"label");
         heroHealthLabel.setFontScale(2f);
 
@@ -54,8 +58,8 @@ public class BattleScreen implements Screen {
         this.battleCountLabel = new Label("Бой: " + battleCount + " из 5", skin, "label");
 
         String bgName = enemy.getName() + MathUtils.random(1, 2) + ".png";
-        Assets.changeBg(bgName);
-        background = new Image(Assets.getBgTexture(bgName));
+        TextureManager.changeBg(bgName);
+        background = new Image(TextureManager.getBgTexture(bgName));
 
         this.onCharReady = onCharReady;
 
@@ -65,10 +69,22 @@ public class BattleScreen implements Screen {
         heroXPos = W * 0.20f;
         enemyXPos = W * 0.80f;
 
-        // Генерация индикатора нанесенного урона
+
         damageLabel = new Label("", skin, "redLabel");
         damageLabel.setFontScale(2f);
         damageLabel.setVisible(false);
+
+        defenderPerksLabel = new Label("", skin, "redLabel");
+        defenderPerksLabel.setFontScale(2f);
+        defenderPerksLabel.setVisible(false);
+        defenderPerksLabel.setAlignment(Align.center);
+
+        attackerPerksLabel = new Label("", skin, "redLabel");
+        attackerPerksLabel.setFontScale(2f);
+        attackerPerksLabel.setVisible(false);
+        attackerPerksLabel.setAlignment(Align.center);
+
+
         winScreenPanel = new WinScreenPanel((Hero) hero, enemy.getLoot(), W, H, onBattleComplete);
     }
 
@@ -76,30 +92,25 @@ public class BattleScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        // ===== корневой стек =====
         Stack root = new Stack();
         root.setFillParent(true);
         stage.addActor(root);
 
-        // --- слой 0: фон ---
         background.setFillParent(true);
         background.setScaling(Scaling.fill);
         background.getColor().a = 0f;
         root.add(background);
         background.addAction(Actions.fadeIn(1.5f));
 
-        // --- слой 1: арена со спрайтами персонажей ---
-        Group arena = new Group();
-        root.add(arena); // между фоном и HUD
+        PausableGroup arena = new PausableGroup();
+        root.add(arena);
 
-        // позиции сразу тут (W/H лучше брать уже после show/resized)
         float W = stage.getViewport().getWorldWidth();
         float H = stage.getViewport().getWorldHeight();
         float heroX  = W * 0.20f;
         float enemyX = W * 0.80f;
         float centerY = H * 0.50f;
 
-        // старт и анимация въезда
         float heroStartX  = W * 0.25f;
         float enemyStartX = W * 0.75f;
         heroSprite.setPosition(heroStartX,  centerY, Align.center);
@@ -116,8 +127,9 @@ public class BattleScreen implements Screen {
         arena.addActor(heroSprite);
         arena.addActor(enemySprite);
         arena.addActor(damageLabel);
+        arena.addActor(defenderPerksLabel);
+        arena.addActor(attackerPerksLabel);
 
-        // --- слой 2: HUD ---
         Table hud = new Table();
         hud.setFillParent(true);
         hud.top().pad(
@@ -128,21 +140,20 @@ public class BattleScreen implements Screen {
         );
         hud.getColor().a = 1f;
         hud.addAction(Actions.sequence(Actions.delay(0.8f), Actions.fadeIn(0.6f)));
-        root.add(hud); // будет поверх арены
+        root.add(hud);
 
         heroHealthLabel.setText(hero.getHealth() + "/" + hero.getMaxHealth());
 
         enemyHealthLabel.setText(enemy.getHealth() + "/" + enemy.getMaxHealth());
 
-        // первая строка — тексты
         hud.add(heroHealthLabel).left().expandX();
         hud.add(battleCountLabel).center();
         hud.add(enemyHealthLabel).right().expandX();
         hud.row();
 
-        // вторая строка — по ОДНОМУ heart в каждую ячейку
-        Image heroHeart  = new Image(Assets.getRegion(AtlasType.MISC, "heart"));
-        Image enemyHeart = new Image(Assets.getRegion(AtlasType.MISC, "heart"));
+
+        Image heroHeart  = new Image(TextureManager.getRegion(TextureManager.AtlasType.MISC, "heart"));
+        Image enemyHeart = new Image(TextureManager.getRegion(TextureManager.AtlasType.MISC, "heart"));
         hud.add(heroHeart)
             .left()
             .size(percentHeight(0.05f, hud), percentHeight(0.05f, hud))
@@ -152,67 +163,98 @@ public class BattleScreen implements Screen {
             .right()
             .size(percentHeight(0.05f, hud), percentHeight(0.05f, hud))
             .padTop(percentHeight(0.012f, hud));
-
-
-
-        // когда спрайты «доехали» — сообщаем наружу
         stage.addAction(Actions.sequence(Actions.delay(2f), Actions.run(onCharReady)));
+
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == com.badlogic.gdx.Input.Keys.ESCAPE) {
+                    arena.switchPause(stage, (Hero) hero);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
-    public void playAttack(boolean isHeroAttacking, boolean isAttackSuccessfull, int damage, Runnable onAttackAniComplete) {
+    public void playAttack(boolean isHeroAttacking, Battle.AttackMetadata attackMetadata, Runnable onAttackAniComplete) {
         if(isHeroAttacking) {
-            heroAttackAnimation(onAttackAniComplete, damage, isAttackSuccessfull);
+            heroAttackAnimation(onAttackAniComplete, attackMetadata);
         } else {
-            enemyAttackAnimation(onAttackAniComplete, damage, isAttackSuccessfull);
+            enemyAttackAnimation(onAttackAniComplete, attackMetadata);
         }
     }
 
-    public void heroAttackAnimation(Runnable onDone, int damage, boolean isAttackSuccefull) {
+    public void heroAttackAnimation(Runnable onDone, Battle.AttackMetadata attackMetadata) {
         float heroXAttackPos = W * 0.60f;
         heroSprite.addAction(Actions.sequence(
             Actions.moveToAligned(heroXAttackPos, H * 0.5f, Align.center, 0.2f),
             Actions.delay(0.3f),
-            Actions.run(() -> animateDamageTake(onDone, damage, false, isAttackSuccefull)),
+            Actions.run(() -> animateDamageTake(onDone, heroXAttackPos, attackMetadata,  false)),
+            Actions.run(() -> checkDefenderStatus(enemy)),
             Actions.moveToAligned(heroXPos, H * 0.5f, Align.center, 0.7f)));
-
-
     }
 
-    public void enemyAttackAnimation(Runnable onDone, int damage, boolean isAttackSuccessful) {
+    public void enemyAttackAnimation(Runnable onDone, Battle.AttackMetadata attackMetadata) {
         float enemyXAttackPos = W * 0.40f;
         enemySprite.addAction(Actions.sequence(
             Actions.moveToAligned(enemyXAttackPos, H * 0.5f, Align.center, 0.2f),
             Actions.delay(0.3f),
-            Actions.run(() -> animateDamageTake(onDone, damage, true, isAttackSuccessful)),
+            Actions.run(() -> animateDamageTake(onDone, enemyXAttackPos, attackMetadata, true)),
+            Actions.run(() -> checkDefenderStatus(hero)),
             Actions.moveToAligned(enemyXPos, H * 0.5f, Align.center, 0.7f)));
-
     }
 
-    private void animateDamageTake(Runnable onDone, int damage, boolean isHeroGetDamage, boolean isAttackSuccessful) {
-        GameCharacter defender;
+    private void animateDamageTake(Runnable onDone, float attackPos, Battle.AttackMetadata attackMetadata, boolean isHeroGetDamage) {
+        String defenderPerksString = String.join("\n", attackMetadata.getDefendPerksMsg());
+        defenderPerksLabel.setText(defenderPerksString);
+
+        String attackerPerksString = String.join("\n", attackMetadata.getAttackPerksMsg());
+        attackerPerksLabel.setText(attackerPerksString);
+
         float damageLabelPos;
+        float attackPerksXPos;
+
+        GameCharacter defender;
         if (isHeroGetDamage) {
             damageLabelPos = heroXPos;
+            attackPerksXPos = attackPos;
             defender = hero;
         } else {
             damageLabelPos = enemyXPos;
+            attackPerksXPos = attackPos;
             defender = enemy;
         }
-        damageLabel.setPosition(damageLabelPos, H * 0.5f);
-        if (isAttackSuccessful) {
-            damageLabel.setText(damage);
+
+        if (attackMetadata.isAttackSuccessful()) {
+            damageLabel.setText(attackMetadata.getDamage());
+            defender.takeDamage(attackMetadata.getDamage());
+            SoundManager.play(SoundManager.Sfx.HIT);
         } else {
             damageLabel.setText("ПРОМАХ!!!");
         }
+
+        damageLabel.setPosition(damageLabelPos, H * 0.5f);
         damageLabel.setVisible(true);
+        damageLabel.getColor().a = 1f;
         damageLabel.addAction(Actions.moveToAligned(damageLabelPos, H * 0.75f, Align.center, 1.6f));
         damageLabel.addAction(Actions.sequence(
-            Actions.run(() -> defender.takeDamage(damage)),
             Actions.fadeOut(1.5f),
             Actions.delay(0.5f),
-            Actions.run(() -> damageLabel.setVisible(false)),
-            Actions.run(() -> damageLabel.getColor().a = 1f),
             Actions.run(onDone)));
+
+        defenderPerksLabel.setPosition(damageLabelPos, H * 0.4f, Align.center);
+        defenderPerksLabel.setVisible(true);
+        defenderPerksLabel.getColor().a = 1f;
+        defenderPerksLabel.addAction(Actions.moveToAligned(damageLabelPos, H * 0.25f, Align.center, 1.6f));
+        defenderPerksLabel.addAction (Actions.fadeOut(1.5f));
+
+        attackerPerksLabel.setPosition(attackPerksXPos, H * 0.5f, Align.center);
+        attackerPerksLabel.setVisible(true);
+        attackerPerksLabel.getColor().a = 1f;
+        attackerPerksLabel.addAction(Actions.moveToAligned(attackPerksXPos, H * 0.75f, Align.center, 1.6f));
+        attackerPerksLabel.addAction (Actions.fadeOut(1.5f));
+
     }
 
     public void animateWinScreen() {
@@ -226,26 +268,35 @@ public class BattleScreen implements Screen {
     }
 
     public void animateLoseScreen(Runnable runnable) {
-        Image diedLabel = new Image(Assets.getRegion(AtlasType.MISC, "diedLabel"));
+        Image diedLabel = new Image(TextureManager.getRegion(TextureManager.AtlasType.MISC, "diedLabel"));
         Table table = new Table();
         table.setFillParent(true);
         table.add(diedLabel);
+        SoundManager.stopMusic();
+        SoundManager.play(SoundManager.Sfx.DEFEAT);
         stage.addActor(table);
         stage.addAction(Actions.sequence(
             Actions.delay(2f),
             Actions.fadeOut(1f),
-            Actions.delay(1f),
+            Actions.delay(2f),
             Actions.run(runnable)));
     }
 
-    public void playTitles(Runnable runnable) {
-        Assets.changeBg("completeGame.png");
-        Image title = new Image(Assets.getBgTexture("completeGame.png"));
-        title.getColor().a = 0;
-        stage.addActor(title);
-        title.addAction(Actions.fadeIn(0.5f));
-    }
+    public void checkDefenderStatus(GameCharacter attackedChar) {
+        System.out.println(attackedChar.getHealth());
+        if (attackedChar.getHealth() > 0) {
+            return;
+        }
+        Image grave = new Image(TextureManager.getRegion(TextureManager.AtlasType.MISC, "grave"));
+        if (attackedChar == hero) {
+            heroSprite.setDrawable(grave.getDrawable());
+        } else {
+            enemySprite.setDrawable(grave.getDrawable());
+        }
+        SoundManager.play(SoundManager.Sfx.DIE);
+        SoundManager.stopMusic();
 
+    }
 
     @Override
     public void render(float delta) {

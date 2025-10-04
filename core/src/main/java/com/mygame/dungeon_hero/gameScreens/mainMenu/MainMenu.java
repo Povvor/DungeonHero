@@ -3,34 +3,37 @@ package com.mygame.dungeon_hero.gameScreens.mainMenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.assetManger.Assets;
-import com.mygame.dungeon_hero.logic.GameWorld;
+import com.mygame.dungeon_hero.uiManagers.SoundManager;
+import com.mygame.dungeon_hero.uiManagers.TextureManager;
+import com.mygame.dungeon_hero.gameScreens.overlay.OverlayManager;
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.gameScreens.UIManager;
+import com.mygame.dungeon_hero.uiManagers.UIManager;
 
 public class MainMenu implements Screen {
-    private Stage stage;
+    private final Stage stage;
     private final GameCore game;
-    private GameWorld gameWorld;
-    private Image background;
+    private final Table compendium;
+
 
     public MainMenu(GameCore game) {
         this.game = game;
+        stage = new Stage(new ScreenViewport());
+        compendium = OverlayManager.getCompendium(stage.getViewport());
+        compendium.setFillParent(true);
     }
 
     @Override
     public void show() {
-        Assets.changeBg("mainMenu.png");
-        Assets.finishAll();
-        background = new Image(Assets.getBgTexture("mainMenu.png"));
-        MainMenuButtonPanel buttons = new MainMenuButtonPanel(UIManager.getSkin(),game);
-        stage = new Stage(new ScreenViewport());
+        SoundManager.loadAndPlayBgMusic("main_menu");
+        TextureManager.changeBg("mainMenu.png");
+        TextureManager.finishAll();
+        Image background = new Image(TextureManager.getBgTexture("mainMenu.png"));
+        MainMenuButtonPanel buttons = new MainMenuButtonPanel(UIManager.getSkin(),game, () -> compendium.setVisible(true));
         Gdx.input.setInputProcessor(stage);
         Table table = buttons.getPanel();
         table.setFillParent(true);
@@ -38,6 +41,7 @@ public class MainMenu implements Screen {
         background.setScaling(Scaling.fill);
         stage.addActor(background);
         stage.addActor(table);
+        stage.addActor(compendium);
     }
 
     @Override
@@ -55,8 +59,6 @@ public class MainMenu implements Screen {
 
     @Override
     public void hide() {
-        stage.dispose();
-         // Освобождаем ресурсы UIManager
     }
 
     @Override

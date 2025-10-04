@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.assetManger;
+package com.mygame.dungeon_hero.uiManagers;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -9,10 +9,9 @@ import lombok.RequiredArgsConstructor;
 public class SoundManager {
     private SoundManager() {}
 
-    private Music previous;
     private static Music currentBg;
     private static String currentBgPath;
-
+    private static boolean isBgmMute = false;
 
     @Getter
     @RequiredArgsConstructor
@@ -32,7 +31,7 @@ public class SoundManager {
         finisAll();
     }
 
-    public static void loadAndPlayMusic(String bgName) {
+    public static void loadAndPlayBgMusic(String bgName) {
         if (currentBg != null) {
             currentBg.stop();
             am.unload(currentBgPath);
@@ -42,7 +41,14 @@ public class SoundManager {
         finisAll();
         currentBg = am.get(currentBgPath);
         currentBg.setLooping(true);
+        float volume = isBgmMute ? 0 : 1f;
+        currentBg.setVolume(volume);
         currentBg.play();
+    }
+
+    public static void play(Sfx sfx) {
+        Sound sound = am.get(sfx.path, Sound.class);
+        sound.play(1f);
     }
 
     public static void stopMusic() {
@@ -51,32 +57,18 @@ public class SoundManager {
         }
     }
 
+    public static void switchMute() {
+        if (currentBg.getVolume() > 0) {
+            currentBg.setVolume(0);
+            isBgmMute = true;
+        } else  {
+            currentBg.setVolume(1);
+            isBgmMute = false;
+        }
+    }
+
     public static void finisAll() {
         am.finishLoading();
-    }
-
-    /**
-     * Выполнение следующего действия фоновой загрузки
-     *
-     * @return true если загрузка завершена
-     */
-    public static boolean update() {
-        return am.update();
-    }
-
-    /**
-     * @return процент выполнения фоновой загрузки звуков
-     */
-    public static float progress() {
-        return am.getProgress();
-    }
-
-    /**
-     * Воспроизведение следующего звука указанного типа
-     */
-    public static void play(Sfx sfx) {
-        Sound sound = am.get(sfx.path, Sound.class);
-        sound.play(1f);
     }
 
     public static void dispose() {

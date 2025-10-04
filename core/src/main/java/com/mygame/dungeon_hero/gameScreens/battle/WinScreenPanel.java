@@ -5,11 +5,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.mygame.dungeon_hero.assetManger.Assets;
-import com.mygame.dungeon_hero.assetManger.AtlasType;
+import com.mygame.dungeon_hero.uiManagers.TextureManager;
 import com.mygame.dungeon_hero.characters.Hero;
 import com.mygame.dungeon_hero.characters.wepons.Weapons;
-import com.mygame.dungeon_hero.gameScreens.UIManager;
+import com.mygame.dungeon_hero.uiManagers.UIManager;
 import lombok.Getter;
 
 
@@ -65,7 +64,7 @@ public class WinScreenPanel {
             wariorUpButton.setText("Продолжить!");
         }
 
-        this.background = new Image(Assets.getBgTexture("winbg.png"));
+        this.background = new Image(TextureManager.getBgTexture("winbg.png"));
 
         banditUpButton.addListener(new ClickListener() {
             @Override
@@ -116,9 +115,9 @@ public class WinScreenPanel {
                     hero.lvlUp(1);
                     onBattleComplete.run();
                 } else {
+                    hero.setMaxHealth(hero.getMaxHealth() + hero.getEndurance());
                     onBattleComplete.run();
                 }
-
             }
         });
 
@@ -161,7 +160,7 @@ public class WinScreenPanel {
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                hero.setWeapon(weapon);
+                hero.changeWeapon(weapon);
                 changeWeaponButton.setVisible(false);
             }
         });
@@ -239,10 +238,10 @@ public class WinScreenPanel {
                     builder.append(hero.getClasses().get(j).getLvl());
                 }
             }
-            Image image = new Image(Assets.getRegion(AtlasType.HERO, builder.toString()));
+            Image image = new Image(TextureManager.getRegion(TextureManager.AtlasType.HERO, builder.toString()));
             image.setScale(0.5f);
-            previews.put(image, hero.getClasses().get(i).getLvlUpDescription((Hero) hero));
-            System.out.println(hero.getClasses().get(i).getLvlUpDescription((Hero) hero));
+            previews.put(image, hero.getClasses().get(i).getLvlUpDescription(hero));
+            System.out.println(hero.getClasses().get(i).getLvlUpDescription(hero));
             builder.setLength(0);
         }
         return previews;

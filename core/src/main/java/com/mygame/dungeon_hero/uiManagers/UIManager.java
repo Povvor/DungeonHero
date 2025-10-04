@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.gameScreens;
+package com.mygame.dungeon_hero.uiManagers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.mygame.dungeon_hero.characters.classes.Barbarian;
 import lombok.Getter;
 
 public class UIManager {
@@ -46,15 +45,11 @@ public class UIManager {
         Label.LabelStyle redLabel = new Label.LabelStyle(skin.get(Label.LabelStyle.class));
         style.font = font;
         whiteLabel.font = font;
-        skin.add("big", style); // Добавляем кастомный шрифт в скин
+        skin.add("big", style);
         skin.add("font", font);
         skin.add("label", whiteLabel);
         redLabel.font = redFont;
         skin.add("redLabel", redLabel);
-    }
-
-    public static Label.LabelStyle getLabelStyle() {
-        return skin.get(Label.LabelStyle.class);
     }
 
     public static void dispose() {

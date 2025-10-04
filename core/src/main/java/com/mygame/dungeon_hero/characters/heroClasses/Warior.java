@@ -1,10 +1,9 @@
-package com.mygame.dungeon_hero.characters.classes;
+package com.mygame.dungeon_hero.characters.heroClasses;
 
 import com.mygame.dungeon_hero.characters.Hero;
 import lombok.Getter;
 
 import static com.mygame.dungeon_hero.characters.Perks.*;
-import static com.mygame.dungeon_hero.characters.wepons.Weapons.DAGGER;
 import static com.mygame.dungeon_hero.characters.wepons.Weapons.SWORD;
 
 public class Warior implements HeroClass {
@@ -20,7 +19,7 @@ public class Warior implements HeroClass {
         switch (lvl) {
             case 1:
                 if (hero.getWeapon() == null) {
-                    hero.setWeapon(SWORD);
+                    hero.changeWeapon(SWORD);
                 }
                 hero.setMaxHealth(hero.getMaxHealth() + hero.getEndurance());
                 hero.fullHeal();

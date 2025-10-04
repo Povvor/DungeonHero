@@ -11,14 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.assetManger.Assets;
-import com.mygame.dungeon_hero.assetManger.AtlasType;
+import com.mygame.dungeon_hero.uiManagers.TextureManager;
 
 public class BattleIntro implements Screen {
     private final Stage stage = new Stage(new ScreenViewport());
     private final Image enemyImage;        // снизу
     private final Image heroImage;         // сверху
-    private final Image vsImage = new Image(Assets.getRegion(AtlasType.MISC, "vsLabel"));
+    private final Image vsImage = new Image(TextureManager.getRegion(TextureManager.AtlasType.MISC, "vsLabel"));
     private final Runnable onDone;
 
     public BattleIntro(TextureRegion heroTexture, TextureRegion enemyTexture, Runnable onDone) {
