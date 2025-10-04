@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.uiManagers.TextureManager;
-import com.mygame.dungeon_hero.uiManagers.UIManager;
+import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
+import com.mygame.dungeon_hero.ssetsManagers.UIManager;
 
 public class CreditsScreen implements Screen {
     private Stage stage;

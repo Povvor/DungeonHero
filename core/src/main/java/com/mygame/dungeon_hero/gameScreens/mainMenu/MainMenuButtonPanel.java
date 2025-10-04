@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.gameScreens.characterCreation.GameScreen;
-import com.mygame.dungeon_hero.uiManagers.SoundManager;
+import com.mygame.dungeon_hero.gameScreens.characterCreation.CreationScreen;
+import com.mygame.dungeon_hero.ssetsManagers.SoundManager;
 import lombok.Getter;
 
 @Getter
@@ -26,7 +26,7 @@ public class MainMenuButtonPanel {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new CreationScreen(game));
             }
         });
 

@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.uiManagers;
+package com.mygame.dungeon_hero.ssetsManagers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

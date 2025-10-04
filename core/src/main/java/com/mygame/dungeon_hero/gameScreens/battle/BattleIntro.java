@@ -11,12 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.uiManagers.TextureManager;
+import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
 
 public class BattleIntro implements Screen {
     private final Stage stage = new Stage(new ScreenViewport());
-    private final Image enemyImage;        // снизу
-    private final Image heroImage;         // сверху
+    private final Image enemyImage;
+    private final Image heroImage;
     private final Image vsImage = new Image(TextureManager.getRegion(TextureManager.AtlasType.MISC, "vsLabel"));
     private final Runnable onDone;
 
@@ -24,12 +24,19 @@ public class BattleIntro implements Screen {
         this.heroImage  = new Image(heroTexture);
         this.enemyImage = new Image(enemyTexture);
         this.onDone = onDone;
+        float w = stage.getViewport().getScreenWidth();
+        float h = stage.getViewport().getScreenHeight();
 
-        vsImage.getColor().a = 0f;            // старт прозрачно
+        heroImage.setSize(w / 2.4f, h / 2.4f);
+        heroImage.setScaling(Scaling.fit);
+        enemyImage.setSize(w / 2.4f, h / 2.4f);
+        enemyImage.setScaling(Scaling.fit);
+
+        vsImage.getColor().a = 0f;
         vsImage.setOrigin(Align.center);
         vsImage.setScaling(Scaling.fit);
+        vsImage.setSize(w / 5f, h / 5f);
 
-        // порядок важен: спрайты под VS
         stage.addActor(enemyImage);
         stage.addActor(heroImage);
         stage.addActor(vsImage);
@@ -41,27 +48,20 @@ public class BattleIntro implements Screen {
     }
 
     private void layoutAndAnimate() {
-        float W = stage.getViewport().getWorldWidth();
-        float H = stage.getViewport().getWorldHeight();
+        float W = stage.getViewport().getScreenWidth();
+        float H = stage.getViewport().getScreenHeight();
 
-        // целевые точки: центры левой/правой половины
         float heroXPos = W * 0.25f;
         float enemyXPos = W * 0.75f;
-        float centerY = H * 0.50f;
+        float centerY = H * 0.5f;
 
-        // насколько «за экран» уводим старт (процент от высоты экрана)
         float offsetY = H * 0.12f;
 
-        // стартовые позиции — строго по центру актёра
-        heroImage.setPosition (heroXPos,  H + heroImage.getHeight() + offsetY, Align.center); // сверху-вне
-        enemyImage.setPosition(enemyXPos, -enemyImage.getHeight() - offsetY, Align.center); // снизу-вне
+        heroImage.setPosition(heroXPos,  H + heroImage.getHeight() + offsetY, Align.center);
+        enemyImage.setPosition(enemyXPos, -enemyImage.getHeight() - offsetY, Align.center);
 
-        // размер «VS» — от меньшей стороны экрана
-        float vsSize = Math.min(W, H) * 0.50f; // 18% от min(W,H)
-        vsImage.setSize(vsSize, vsSize);
         vsImage.setPosition(W * 0.5f, H * 0.5f, Align.center);
 
-        // тайминги (сек)
         float slideTime = 2.0f;
         float delayTime = 0.5f;
         float vsIn = 1f;
@@ -103,6 +103,6 @@ public class BattleIntro implements Screen {
     @Override public void pause() {}
     @Override public void resume() {}
     @Override public void hide() {}
-    @Override public void dispose() { stage.dispose(); } // текстуры освобождает ваш AssetManager
+    @Override public void dispose() { stage.dispose(); }
 }
 

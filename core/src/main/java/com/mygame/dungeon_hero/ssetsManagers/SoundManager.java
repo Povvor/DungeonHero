@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.uiManagers;
+package com.mygame.dungeon_hero.ssetsManagers;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;

@@ -8,17 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.uiManagers.SoundManager;
-import com.mygame.dungeon_hero.uiManagers.TextureManager;
+import com.mygame.dungeon_hero.ssetsManagers.SoundManager;
+import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
 import com.mygame.dungeon_hero.gameScreens.overlay.OverlayManager;
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.uiManagers.UIManager;
+import com.mygame.dungeon_hero.ssetsManagers.UIManager;
 
 public class MainMenu implements Screen {
     private final Stage stage;
     private final GameCore game;
     private final Table compendium;
-
 
     public MainMenu(GameCore game) {
         this.game = game;
@@ -48,7 +47,7 @@ public class MainMenu implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
     }
 

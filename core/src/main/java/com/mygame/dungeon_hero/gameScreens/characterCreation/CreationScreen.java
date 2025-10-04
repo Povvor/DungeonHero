@@ -10,14 +10,14 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.uiManagers.TextureManager;
-import com.mygame.dungeon_hero.uiManagers.UIManager;
+import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
+import com.mygame.dungeon_hero.ssetsManagers.UIManager;
 
-public class GameScreen implements Screen {
+public class CreationScreen implements Screen {
     public  Stage stage;
     private final GameCore game;
 
-    public GameScreen(GameCore game) {
+    public CreationScreen(GameCore game) {
         this.game = game;
     }
 
@@ -38,12 +38,12 @@ public class GameScreen implements Screen {
 
     public void drawHeroIcon() {
         Image heroIcon = new Image(game.getGameWorld().getHero().getSprite());
-        heroIcon.setSize(512, 512);
         heroIcon.setOrigin(Align.center);
         float w = stage.getViewport().getWorldWidth();
         float h = stage.getViewport().getWorldHeight();
-        heroIcon.setPosition(w * (0.55f), h * (0.58f), Align.center);
-
+        heroIcon.setSize(w / 3, h / 3);
+        heroIcon.setScaling(Scaling.fit);
+        heroIcon.setPosition(w * (0.65f), h * (0.58f), Align.center);
         stage.addActor(heroIcon);
     }
 
@@ -51,13 +51,12 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override

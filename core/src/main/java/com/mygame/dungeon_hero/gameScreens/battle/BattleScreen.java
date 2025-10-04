@@ -13,11 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.uiManagers.TextureManager;
-import com.mygame.dungeon_hero.uiManagers.SoundManager;
+import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
+import com.mygame.dungeon_hero.ssetsManagers.SoundManager;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.uiManagers.UIManager;
+import com.mygame.dungeon_hero.ssetsManagers.UIManager;
 import com.mygame.dungeon_hero.logic.Battle;
 
 import static com.badlogic.gdx.scenes.scene2d.ui.Value.*;
@@ -68,7 +68,11 @@ public class BattleScreen implements Screen {
         H = stage.getViewport().getWorldHeight();
         heroXPos = W * 0.20f;
         enemyXPos = W * 0.80f;
+        heroSprite.setSize(W / 2.4f, H / 2.4f);
+        heroSprite.setScaling(Scaling.fit);
 
+        enemySprite.setSize(W / 2.4f, H / 2.4f);
+        enemySprite.setScaling(Scaling.fit);
 
         damageLabel = new Label("", skin, "redLabel");
         damageLabel.setFontScale(2f);
@@ -143,7 +147,6 @@ public class BattleScreen implements Screen {
         root.add(hud);
 
         heroHealthLabel.setText(hero.getHealth() + "/" + hero.getMaxHealth());
-
         enemyHealthLabel.setText(enemy.getHealth() + "/" + enemy.getMaxHealth());
 
         hud.add(heroHealthLabel).left().expandX();

@@ -16,9 +16,9 @@ public class CharCreateButtons {
     private final TextButton startButton;
     private final Label label;
     private final GameCore game;
-    private final GameScreen screen;
+    private final CreationScreen screen;
 
-    public CharCreateButtons(Skin skin, GameCore game, GameScreen screen) {
+    public CharCreateButtons(Skin skin, GameCore game, CreationScreen screen) {
         this.game = game;
         this.screen = screen;
 

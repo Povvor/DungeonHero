@@ -5,10 +5,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.mygame.dungeon_hero.uiManagers.TextureManager;
+import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
 import com.mygame.dungeon_hero.characters.Hero;
 import com.mygame.dungeon_hero.characters.wepons.Weapons;
-import com.mygame.dungeon_hero.uiManagers.UIManager;
+import com.mygame.dungeon_hero.ssetsManagers.UIManager;
 import lombok.Getter;
 
 
@@ -96,7 +96,7 @@ public class WinScreenPanel {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
 
-                wariorUpButton.setColor(1, 0.8f, 0.8f, 1); // подсветка
+                wariorUpButton.setColor(1, 0.8f, 0.8f, 1);
                 previewTextures.get(1).setVisible(false);
                 descriptions.get(1).setVisible(true);
             }
