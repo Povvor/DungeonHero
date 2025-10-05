@@ -8,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.ssetsManagers.SoundManager;
-import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
+import com.mygame.dungeon_hero.assetsManagers.SoundManager;
+import com.mygame.dungeon_hero.assetsManagers.TextureManager;
 import com.mygame.dungeon_hero.gameScreens.overlay.OverlayManager;
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.ssetsManagers.UIManager;
+import com.mygame.dungeon_hero.assetsManagers.UIManager;
 
 public class MainMenu implements Screen {
     private final Stage stage;

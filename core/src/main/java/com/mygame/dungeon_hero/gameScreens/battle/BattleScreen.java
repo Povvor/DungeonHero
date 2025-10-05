@@ -13,11 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
-import com.mygame.dungeon_hero.ssetsManagers.SoundManager;
+import com.mygame.dungeon_hero.assetsManagers.TextureManager;
+import com.mygame.dungeon_hero.assetsManagers.SoundManager;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.ssetsManagers.UIManager;
+import com.mygame.dungeon_hero.assetsManagers.UIManager;
 import com.mygame.dungeon_hero.logic.Battle;
 
 import static com.badlogic.gdx.scenes.scene2d.ui.Value.*;
@@ -57,7 +57,7 @@ public class BattleScreen implements Screen {
 
         this.battleCountLabel = new Label("Бой: " + battleCount + " из 5", skin, "label");
 
-        String bgName = enemy.getName() + MathUtils.random(1, 2) + ".png";
+        String bgName = enemy.getName().toLowerCase() + MathUtils.random(1, 2) + ".png";
         TextureManager.changeBg(bgName);
         background = new Image(TextureManager.getBgTexture(bgName));
 
@@ -87,7 +87,7 @@ public class BattleScreen implements Screen {
         attackerPerksLabel.setFontScale(2f);
         attackerPerksLabel.setVisible(false);
         attackerPerksLabel.setAlignment(Align.center);
-
+        
 
         winScreenPanel = new WinScreenPanel((Hero) hero, enemy.getLoot(), W, H, onBattleComplete);
     }

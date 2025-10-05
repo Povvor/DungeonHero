@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.ssetsManagers;
+package com.mygame.dungeon_hero.assetsManagers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -16,29 +16,27 @@ public class UIManager {
     @Getter
     private static BitmapFont font;
 
-    // Метод для инициализации шрифта и скина
     public static void init() {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
-        // Создание кастомного шрифта
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/ofont.ru_Glina Script.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 
-        parameter.size = Math.round(Gdx.graphics.getHeight() * 0.022f);  // Устанавливаем размер шрифта
+        parameter.size = Math.round(Gdx.graphics.getHeight() * 0.022f);
 
         parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS
             + "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
             + "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-        // кириллица
-        parameter.borderWidth = Math.max(1f, parameter.size * 0.06f);   // ~6% от кегля
+
+        parameter.borderWidth = Math.max(1f, parameter.size * 0.06f);
         parameter.borderColor = Color.BLACK;
         parameter.borderStraight = true;
-        font = generator.generateFont(parameter);// Генерация шрифта
+        font = generator.generateFont(parameter);
         parameter.color = Color.RED;
         parameter.borderColor = Color.WHITE;
-        BitmapFont redFont = generator.generateFont(parameter);// Генерация белого шрифта
+        BitmapFont redFont = generator.generateFont(parameter);
 
-        generator.dispose();  // Освобождение ресурсов
+        generator.dispose();
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(skin.get(TextButton.TextButtonStyle.class));
         Label.LabelStyle whiteLabel = new Label.LabelStyle(skin.get(Label.LabelStyle.class));

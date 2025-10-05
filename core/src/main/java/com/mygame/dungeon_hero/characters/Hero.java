@@ -1,7 +1,7 @@
 package com.mygame.dungeon_hero.characters;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
+import com.mygame.dungeon_hero.assetsManagers.TextureManager;
 import com.mygame.dungeon_hero.characters.heroClasses.Bandit;
 import com.mygame.dungeon_hero.characters.heroClasses.Barbarian;
 import com.mygame.dungeon_hero.characters.heroClasses.HeroClass;

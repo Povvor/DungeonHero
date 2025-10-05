@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.ssetsManagers;
+package com.mygame.dungeon_hero.assetsManagers;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -16,9 +16,9 @@ public class SoundManager {
     @Getter
     @RequiredArgsConstructor
     public enum Sfx {
-        DEFEAT("assets/audio/sfx/defeat_sound.ogg"),
-        DIE("assets/audio/sfx/die_sound.ogg"),
-        HIT("assets/audio/sfx/hit_sound.ogg"),;
+        DEFEAT("audio/sfx/defeat_sound.ogg"),
+        DIE("audio/sfx/die_sound.ogg"),
+        HIT("audio/sfx/hit_sound.ogg"),;
         private final String path;
     }
 
@@ -36,7 +36,7 @@ public class SoundManager {
             currentBg.stop();
             am.unload(currentBgPath);
         }
-        currentBgPath = "assets/audio/bgm/" + bgName + "_bgm.ogg";
+        currentBgPath = "audio/bgm/" + bgName + "_bgm.ogg";
         am.load(currentBgPath, Music.class);
         finisAll();
         currentBg = am.get(currentBgPath);

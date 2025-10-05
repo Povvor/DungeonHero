@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.ssetsManagers.SoundManager;
-import com.mygame.dungeon_hero.ssetsManagers.UIManager;
+import com.mygame.dungeon_hero.assetsManagers.SoundManager;
+import com.mygame.dungeon_hero.assetsManagers.UIManager;
 
 
 import static com.badlogic.gdx.scenes.scene2d.ui.Value.percentHeight;

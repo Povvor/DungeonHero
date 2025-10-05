@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.gameScreens.characterCreation.CreationScreen;
-import com.mygame.dungeon_hero.ssetsManagers.SoundManager;
+import com.mygame.dungeon_hero.assetsManagers.SoundManager;
 import lombok.Getter;
 
 @Getter

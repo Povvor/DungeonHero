@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.ssetsManagers;
+package com.mygame.dungeon_hero.assetsManagers;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,18 +12,18 @@ public final class TextureManager {
 
     public static final AssetManager am = new AssetManager();
 
-    public static final String BG_FOLDER = "assets/backgrounds/";
+    public static final String BG_FOLDER = "backgrounds/";
     public static String previousBg;
     public static String currentBg;
-    public static String winningBg = "assets/backgrounds/winbg.png";
+    public static String winningBg = "backgrounds/winbg.png";
 
     @Getter
     @RequiredArgsConstructor
     public enum AtlasType {
-        ENEMY("assets/textures/enemies.atlas"),
-        WEAPON("assets/textures/weapons.atlas"),
-        MISC("assets/textures/misc.atlas"),
-        HERO("assets/textures/hero.atlas");
+        ENEMY("textures/enemies.atlas"),
+        WEAPON("textures/weapons.atlas"),
+        MISC("textures/misc.atlas"),
+        HERO("textures/hero.atlas");
         private final String path;
     }
 
@@ -44,10 +44,10 @@ public final class TextureManager {
     }
 
     public static void initMainAtlases() {
-        am.load("assets/textures/enemies.atlas", TextureAtlas.class);
-        am.load("assets/textures/hero.atlas", TextureAtlas.class);
-        am.load("assets/textures/misc.atlas", TextureAtlas.class);
-        am.load("assets/textures/weapons.atlas", TextureAtlas.class);
+        am.load("textures/enemies.atlas", TextureAtlas.class);
+        am.load("textures/hero.atlas", TextureAtlas.class);
+        am.load("textures/misc.atlas", TextureAtlas.class);
+        am.load("textures/weapons.atlas", TextureAtlas.class);
         am.load(winningBg, Texture.class);
     }
 

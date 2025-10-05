@@ -10,8 +10,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
-import com.mygame.dungeon_hero.ssetsManagers.UIManager;
+import com.mygame.dungeon_hero.assetsManagers.TextureManager;
+import com.mygame.dungeon_hero.assetsManagers.UIManager;
 
 public class CreationScreen implements Screen {
     public  Stage stage;

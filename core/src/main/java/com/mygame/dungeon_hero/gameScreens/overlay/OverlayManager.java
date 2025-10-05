@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.characters.Enemies;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.ssetsManagers.UIManager;
+import com.mygame.dungeon_hero.assetsManagers.UIManager;
 
 public final class OverlayManager {
     private static GameCore gameCore;

@@ -1,7 +1,7 @@
 package com.mygame.dungeon_hero.characters.wepons;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mygame.dungeon_hero.ssetsManagers.TextureManager;
+import com.mygame.dungeon_hero.assetsManagers.TextureManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import static com.mygame.dungeon_hero.characters.wepons.Weapons.DamageType.*;

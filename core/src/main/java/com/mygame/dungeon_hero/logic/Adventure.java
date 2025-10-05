@@ -2,7 +2,7 @@ package com.mygame.dungeon_hero.logic;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.mygame.dungeon_hero.GameCore;
-import com.mygame.dungeon_hero.ssetsManagers.SoundManager;
+import com.mygame.dungeon_hero.assetsManagers.SoundManager;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Enemies;
 import com.mygame.dungeon_hero.characters.Hero;
@@ -35,7 +35,7 @@ public class Adventure {
         hero.fullHeal();
         Battle battle = new Battle(hero, enemy, game, battleCount, this::nextBattle);
         battle.playIntro();
-        SoundManager.loadAndPlayBgMusic(enemy.getName());
+        SoundManager.loadAndPlayBgMusic(enemy.getName().toLowerCase());
     }
 
     private void adventureComplete() {
