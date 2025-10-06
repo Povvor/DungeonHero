@@ -22,7 +22,7 @@ public class MainMenu implements Screen {
     public MainMenu(GameCore game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
-        compendium = OverlayManager.getCompendium(stage.getViewport());
+        compendium = OverlayManager.getCompendium(stage.getViewport(), true);
         compendium.setFillParent(true);
     }
 
@@ -32,7 +32,7 @@ public class MainMenu implements Screen {
         TextureManager.changeBg("mainMenu.png");
         TextureManager.finishAll();
         Image background = new Image(TextureManager.getBgTexture("mainMenu.png"));
-        MainMenuButtonPanel buttons = new MainMenuButtonPanel(UIManager.getSkin(),game, () -> compendium.setVisible(true));
+        MainMenuButtonPanel buttons = new MainMenuButtonPanel(UIManager.getSkin(),game, () -> compendium.setVisible(true), stage.getViewport());
         Gdx.input.setInputProcessor(stage);
         Table table = buttons.getPanel();
         table.setFillParent(true);

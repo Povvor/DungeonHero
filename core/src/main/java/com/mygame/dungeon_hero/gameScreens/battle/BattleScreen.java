@@ -33,7 +33,7 @@ public class BattleScreen implements Screen {
     private final Label heroHealthLabel;
     private final Label enemyHealthLabel;
     private final Label battleCountLabel;
-    private final Runnable onCharReady;
+    private final Battle battle;
     private final float W;
     private final float H;
     private final float heroXPos;
@@ -43,7 +43,7 @@ public class BattleScreen implements Screen {
     private final Label attackerPerksLabel;
     private final WinScreenPanel winScreenPanel;
 
-    public BattleScreen(int battleCount, GameCharacter hero, GameCharacter enemy, Runnable onCharReady, Runnable onBattleComplete) {
+    public BattleScreen(int battleCount, GameCharacter hero, GameCharacter enemy, Battle battle, Runnable onBattleComplete) {
         this.hero = hero;
         this.heroSprite = new Image(hero.getSprite());
         Skin skin = UIManager.getSkin();
@@ -61,7 +61,7 @@ public class BattleScreen implements Screen {
         TextureManager.changeBg(bgName);
         background = new Image(TextureManager.getBgTexture(bgName));
 
-        this.onCharReady = onCharReady;
+        this.battle = battle;
 
         stage = new Stage(new ScreenViewport());
         W = stage.getViewport().getWorldWidth();
@@ -87,7 +87,7 @@ public class BattleScreen implements Screen {
         attackerPerksLabel.setFontScale(2f);
         attackerPerksLabel.setVisible(false);
         attackerPerksLabel.setAlignment(Align.center);
-        
+
 
         winScreenPanel = new WinScreenPanel((Hero) hero, enemy.getLoot(), W, H, onBattleComplete);
     }
@@ -166,13 +166,13 @@ public class BattleScreen implements Screen {
             .right()
             .size(percentHeight(0.05f, hud), percentHeight(0.05f, hud))
             .padTop(percentHeight(0.012f, hud));
-        stage.addAction(Actions.sequence(Actions.delay(2f), Actions.run(onCharReady)));
+        stage.addAction(Actions.sequence(Actions.delay(2f), Actions.run(battle::turn)));
 
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == com.badlogic.gdx.Input.Keys.ESCAPE) {
-                    arena.switchPause(stage, (Hero) hero);
+                    arena.switchPause(stage, (Hero) hero, battle);
                     return true;
                 }
                 return false;

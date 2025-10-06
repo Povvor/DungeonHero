@@ -31,6 +31,7 @@ public class GameCore extends Game {
     public void restartGame() {
         setScreen(mainMenu);
         SoundManager.stopMusic();
+        SoundManager.loadAndPlayBgMusic("main_menu");
     }
 
     public void disposeAllAnfQuit() {

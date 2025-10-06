@@ -3,6 +3,7 @@ package com.mygame.dungeon_hero.logic;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.MathUtils;
 import com.mygame.dungeon_hero.GameCore;
+import com.mygame.dungeon_hero.assetsManagers.SoundManager;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Hero;
 import com.mygame.dungeon_hero.characters.Perks;
@@ -37,7 +38,7 @@ public class Battle {
     public Battle(Hero hero, GameCharacter enemy, GameCore game, int battleCount, Runnable onBattleComplete) {
         this.hero = hero;
         this.game = game;
-        battleScreen = new BattleScreen(battleCount, hero, enemy, this::turn, onBattleComplete);
+        battleScreen = new BattleScreen(battleCount, hero, enemy, this, onBattleComplete);
         battleIntroScreen = new BattleIntro(hero.getSprite(), enemy.getSprite(), this::startBattle);
         if (hero.getAgility() > enemy.getAgility()) {
             attacker = hero;
@@ -46,6 +47,7 @@ public class Battle {
             attacker = enemy;
             defender = hero;
         }
+        SoundManager.loadAndPlayBgMusic(enemy.getName().toLowerCase());
     }
 
     public void playIntro() {
@@ -171,7 +173,7 @@ public class Battle {
         }
     }
 
-    private void returnToMenu() {
+    public void returnToMenu() {
         game.restartGame();
         battleScreen.dispose();
         battleIntroScreen.dispose();

@@ -56,6 +56,13 @@ public class Hero extends GameCharacter {
         getClasses().get(classId).lvlUp(this);
         level++;
         updateHeroSprite();
+        fullHeal();
+    }
+
+    public void lvlUp() {
+        level++;
+        setMaxHealth(getMaxHealth() + getEndurance());
+        fullHeal();
     }
 
     private void updateHeroSprite() {

@@ -23,8 +23,8 @@ public class CreationScreen implements Screen {
 
     @Override
     public void show() {
-        TextureManager.changeBg("meadow.png");
-        Image background = new Image(TextureManager.getBgTexture("meadow.png"));
+        TextureManager.changeBg("tavern.png");
+        Image background = new Image(TextureManager.getBgTexture("tavern.png"));
         CharCreateButtons buttons = new CharCreateButtons(UIManager.getSkin(), game, this);
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);

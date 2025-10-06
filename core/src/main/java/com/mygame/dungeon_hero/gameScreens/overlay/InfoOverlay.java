@@ -14,6 +14,8 @@ import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.characters.Hero;
 import com.mygame.dungeon_hero.assetsManagers.SoundManager;
 import com.mygame.dungeon_hero.assetsManagers.UIManager;
+import com.mygame.dungeon_hero.logic.Battle;
+import lombok.Getter;
 
 
 import static com.badlogic.gdx.scenes.scene2d.ui.Value.percentHeight;
@@ -22,17 +24,16 @@ import static com.badlogic.gdx.scenes.scene2d.ui.Value.percentHeight;
 public class InfoOverlay extends Group {
     private final Table panel;
     private final Viewport viewport;
-    private final Table infoTable;
+    private @Getter final Table infoTable;
     private final Table compendiumTable;
-    private final GameCore gameCore;
+    public Battle currentBattle;
 
     public InfoOverlay(Viewport viewport, GameCore gameCore) {
         this.viewport = viewport;
-        this.gameCore = gameCore;
         Table buttonTable = getButtonPanel();
         infoTable = new Table();
         infoTable.setVisible(false);
-        compendiumTable = OverlayManager.getCompendium(viewport);
+        compendiumTable = OverlayManager.getCompendium(viewport, true);
         compendiumTable.setVisible(false);
 
         Image background = new Image(UIManager.getSkin().newDrawable("white", 0, 0, 0, 0.6f));
@@ -53,16 +54,17 @@ public class InfoOverlay extends Group {
         getColor().a = 0f;
     }
 
-    public void openOn(Stage stage, Hero hero) {
+    public void openOn(Stage stage, Hero hero, Battle battle) {
         updateInfo(hero);
         infoTable.setVisible(false);
         setSize(stage.getViewport().getWorldWidth(), stage.getViewport().getWorldHeight());
         panel.pack();
         panel.setPosition((getWidth()-panel.getWidth())/2f, (getHeight()-panel.getHeight())/2f);
-        if (getStage() == null) stage.addActor(this);
+        stage.addActor(this);
         toFront();
         clearActions();
         addAction(Actions.fadeIn(0.15f));
+        currentBattle = battle;
     }
 
     public void updateInfo(Hero hero) {
@@ -80,6 +82,8 @@ public class InfoOverlay extends Group {
         Skin skin = UIManager.getSkin();
         infoTable.clear();
 
+        infoTable.defaults().fill().expand();
+
         Image bg = new Image(skin.newDrawable("white", 0, 0, 0, 0.6f));
         bg.setFillParent(true);
         infoTable.addActor(bg);
@@ -92,6 +96,7 @@ public class InfoOverlay extends Group {
         Table content = new Table();
         infoTable.add(content);
         Image heroImg = new Image(hero.getSprite());
+        heroImg.setScaling(Scaling.fit);
 
         Table right = new Table();
         Label info = new Label(hero.getHeroInfo(), skin, "label");
@@ -151,7 +156,7 @@ public class InfoOverlay extends Group {
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                gameCore.restartGame();
+                currentBattle.returnToMenu();
             }
         });
 
