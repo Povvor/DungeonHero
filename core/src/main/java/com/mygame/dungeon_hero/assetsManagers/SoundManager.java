@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 public class SoundManager {
-    private SoundManager() {}
 
     private static Music currentBg;
     private static String currentBgPath;
@@ -22,11 +21,11 @@ public class SoundManager {
         private final String path;
     }
 
-    private static final AssetManager am = new AssetManager();
+    private static final AssetManager SOUND_MANAGER = new AssetManager();
 
     public static void loadAllSfx() {
-        for(Sfx sfx : Sfx.values()) {
-            am.load(sfx.path, Sound.class);
+        for (Sfx sfx : Sfx.values()) {
+            SOUND_MANAGER.load(sfx.path, Sound.class);
         }
         finisAll();
     }
@@ -34,12 +33,12 @@ public class SoundManager {
     public static void loadAndPlayBgMusic(String bgName) {
         if (currentBg != null) {
             currentBg.stop();
-            am.unload(currentBgPath);
+            SOUND_MANAGER.unload(currentBgPath);
         }
         currentBgPath = "audio/bgm/" + bgName + "_bgm.ogg";
-        am.load(currentBgPath, Music.class);
+        SOUND_MANAGER.load(currentBgPath, Music.class);
         finisAll();
-        currentBg = am.get(currentBgPath);
+        currentBg = SOUND_MANAGER.get(currentBgPath);
         currentBg.setLooping(true);
         float volume = isBgmMute ? 0 : 1f;
         currentBg.setVolume(volume);
@@ -47,7 +46,7 @@ public class SoundManager {
     }
 
     public static void play(Sfx sfx) {
-        Sound sound = am.get(sfx.path, Sound.class);
+        Sound sound = SOUND_MANAGER.get(sfx.path, Sound.class);
         sound.play(1f);
     }
 
@@ -68,10 +67,10 @@ public class SoundManager {
     }
 
     public static void finisAll() {
-        am.finishLoading();
+        SOUND_MANAGER.finishLoading();
     }
 
     public static void dispose() {
-        am.dispose();
+        SOUND_MANAGER.dispose();
     }
 }

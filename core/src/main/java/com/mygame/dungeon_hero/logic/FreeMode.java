@@ -3,22 +3,21 @@ package com.mygame.dungeon_hero.logic;
 import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.gameScreens.characterCreation.FreeMode;
+import com.mygame.dungeon_hero.gameScreens.characterCreation.FreeModeCreationScreen;
 import lombok.Setter;
 
-public class FreeModeCreation {
+public class FreeMode {
     private final GameCore game;
     private Hero hero;
     @Setter
     private GameCharacter enemy;
-    private final FreeMode freeMode;
+    private final FreeModeCreationScreen freeMode;
 
-    public FreeModeCreation(GameCore game) {
+    public FreeMode(GameCore game) {
        this.game = game;
-        freeMode = new FreeMode(this);
+        freeMode = new FreeModeCreationScreen(this);
        game.setScreen(freeMode);
     }
-
 
     public int createOrLvlUpHero(int index) {
         if (hero == null) {

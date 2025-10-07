@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygame.dungeon_hero.assetsManagers.TextureManager;
 import com.mygame.dungeon_hero.characters.Hero;
-import com.mygame.dungeon_hero.characters.wepons.Weapons;
+import com.mygame.dungeon_hero.characters.Weapons;
 import com.mygame.dungeon_hero.assetsManagers.UIManager;
 import lombok.Getter;
 
@@ -29,12 +29,12 @@ public class WinScreenPanel {
     private final List<Label> descriptions;
     private final Skin skin = UIManager.getSkin();
     private final Image background;
-    private final float W;
-    private final float H;
+    private final float w;
+    private final float h;
 
     public WinScreenPanel(Hero hero, Weapons weapon, float width, float height, Runnable onBattleComplete) {
-        this.W = width;
-        this.H = height;
+        this.w = width;
+        this.h = height;
 
         String labelText = "Вам выпал: " + weapon.getName() + "\n" + "Урон: " + weapon.getDamage() + "\n" + weapon.getDamageType().getDescription();
         nameLabel = new Label(labelText, skin, "label");
@@ -51,12 +51,12 @@ public class WinScreenPanel {
         if (hero.getLevel() < 3) {
             for (Map.Entry<Image, String> entry : initPreviews(hero).entrySet()) {
                 previewTextures.add(entry.getKey());
-                descriptions.add(new Label(entry.getValue(), skin,"label"));
+                descriptions.add(new Label(entry.getValue(), skin, "label"));
             }
         } else {
             for (int i = 0; i < 3; i++) {
                 previewTextures.add(new Image());
-                descriptions.add(new Label(" ", skin,"label"));
+                descriptions.add(new Label(" ", skin, "label"));
             }
             banditUpButton.setVisible(false);
             barbarianUpButton.setVisible(false);
@@ -72,16 +72,16 @@ public class WinScreenPanel {
                 super.enter(event, x, y, pointer, fromActor);
 
                 wariorUpButton.setColor(1, 0.8f, 0.8f, 1);
-                previewTextures.get(0).setVisible(false);
-                descriptions.get(0).setVisible(true);
+                previewTextures.getFirst().setVisible(false);
+                descriptions.getFirst().setVisible(true);
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
 
                 wariorUpButton.setColor(1, 1, 1, 1);
-                previewTextures.get(0).setVisible(true);
-                descriptions.get(0).setVisible(false);
+                previewTextures.getFirst().setVisible(true);
+                descriptions.getFirst().setVisible(false);
             }
 
             @Override
@@ -158,6 +158,7 @@ public class WinScreenPanel {
                 super.exit(event, x, y, pointer, toActor);
                 changeWeaponButton.setColor(1, 1, 1, 1);
             }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 hero.changeWeapon(weapon);
@@ -181,9 +182,9 @@ public class WinScreenPanel {
 
         Table col1 = new Table();
         Stack stack1 = new Stack();
-        descriptions.get(0).setVisible(false);
-        stack1.add(descriptions.get(0));
-        stack1.add(previewTextures.get(0));
+        descriptions.getFirst().setVisible(false);
+        stack1.add(descriptions.getFirst());
+        stack1.add(previewTextures.getFirst());
         col1.add(stack1).row();
         col1.add(banditUpButton);
 
@@ -208,15 +209,15 @@ public class WinScreenPanel {
         heroButtons.add(col3);
 
         root.add(nameLabel).row();
-        root.add(droppedWeapon).size(W / 12, H / 6).row();
+        root.add(droppedWeapon).size(w / 12, h / 6).row();
         root.add(changeWeaponButton).row();
-        root.add(heroButtons).size(W * 0.9f, H / 3).row();
+        root.add(heroButtons).size(w * 0.9f, h / 3).row();
 
         float rootScale = 0.15f;
-        root.padLeft(W * rootScale);
-        root.padRight(W * rootScale);
-        root.padTop(H * rootScale);
-        root.padBottom(H * rootScale);
+        root.padLeft(w * rootScale);
+        root.padRight(w * rootScale);
+        root.padTop(h * rootScale);
+        root.padBottom(h * rootScale);
 
         Table overlay = new Table();
         overlay.setFillParent(false);
@@ -227,7 +228,7 @@ public class WinScreenPanel {
         return stack;
     }
 
-    private Map<Image, String> initPreviews (Hero hero) {
+    private Map<Image, String> initPreviews(Hero hero) {
         Map<Image, String> previews = new LinkedHashMap<>();
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < hero.getClasses().size(); i++) {

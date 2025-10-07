@@ -7,7 +7,7 @@ import com.mygame.dungeon_hero.assetsManagers.SoundManager;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Hero;
 import com.mygame.dungeon_hero.characters.Perks;
-import com.mygame.dungeon_hero.characters.wepons.Weapons;
+import com.mygame.dungeon_hero.characters.Weapons;
 import com.mygame.dungeon_hero.gameScreens.battle.BattleIntro;
 import com.mygame.dungeon_hero.gameScreens.battle.BattleScreen;
 import lombok.Data;
@@ -28,7 +28,7 @@ public class Battle {
     private boolean isBattleUnderway = true;
 
     @Data
-    public class AttackMetadata{
+    public class AttackMetadata {
         private int damage = attacker.getDamage() + attacker.getStrength();
         private List<String> attackPerksMsg = new ArrayList<>();
         private List<String> defendPerksMsg = new ArrayList<>();
@@ -59,7 +59,7 @@ public class Battle {
     }
 
     public void turn() {
-        if (attackCounter % 2 == 0){
+        if (attackCounter % 2 == 0) {
             turnCount++;
         }
         boolean isAttackSuccess = isAttackSuccess(attacker, defender);
@@ -96,7 +96,7 @@ public class Battle {
         for (Perks perk : attacker.getPerks()) {
             switch (perk) {
                 case FURY:
-                    if(turnCount <= 3) {
+                    if (turnCount <= 3) {
                         attackMetadata.damage += 2;
                         attackMetadata.attackPerksMsg.add("Ярость + 2 урона!!!");
                     } else {
@@ -116,7 +116,7 @@ public class Battle {
                     }
                     break;
                 case SNEAK_ATTACK:
-                    if(attacker.getAgility() > defender.getAgility()) {
+                    if (attacker.getAgility() > defender.getAgility()) {
                         attackMetadata.damage += 1;
                         attackMetadata.attackPerksMsg.add("Скрытая атака + 1 Урон");
                     }
@@ -126,6 +126,7 @@ public class Battle {
                         attackMetadata.attackPerksMsg.add("Огненное дыхание: + 3 урона");
                         attackMetadata.damage += 3;
                     }
+                default:
             }
         }
     }
@@ -134,7 +135,7 @@ public class Battle {
         for (Perks perk : defender.getPerks()) {
             switch (perk) {
                 case SHIELD:
-                    if(defender.getStrength() > attacker.getStrength()) {
+                    if (defender.getStrength() > attacker.getStrength()) {
                         attackMetadata.damage -= 3;
                         attackMetadata.defendPerksMsg.add("Щит! Урон -3");
                     }
@@ -154,7 +155,7 @@ public class Battle {
                         attackMetadata.damage *= 2;
                         System.out.println("Уязвимость к дробящему урону: Двойной урон!");
                     }
-                    break;
+                default:
             }
         }
     }

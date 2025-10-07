@@ -8,7 +8,7 @@ import com.mygame.dungeon_hero.characters.Hero;
 import com.mygame.dungeon_hero.gameScreens.CreditsScreen;
 
 public class Adventure {
-    private final Enemies[] ENEMIES = Enemies.values();
+    private final Enemies[] enemiesList = Enemies.values();
     private final Hero hero;
     private final GameCore game;
     private int battleCount = 0;
@@ -28,8 +28,8 @@ public class Adventure {
             return;
         }
         battleCount++;
-        int random = MathUtils.random(0, ENEMIES.length - 1);
-        Enemies randomEnemy  = ENEMIES[random];
+        int random = MathUtils.random(0, enemiesList.length - 1);
+        Enemies randomEnemy  = enemiesList[random];
         GameCharacter enemy = new GameCharacter(randomEnemy);
         hero.fullHeal();
         Battle battle = new Battle(hero, enemy, game, battleCount, this::nextBattle);

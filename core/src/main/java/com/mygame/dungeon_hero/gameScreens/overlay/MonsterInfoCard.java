@@ -22,7 +22,7 @@ public class MonsterInfoCard extends Stack {
         info.setWrap(true);
         info.setAlignment(Align.center);
         info.setVisible(false);
-        info.setColor(1f,1f,1f,0f);
+        info.setColor(1f, 1f, 1f, 0f);
 
         float w = viewport.getWorldWidth() * 0.1f;
         float h = viewport.getWorldHeight() * 0.1f;
@@ -35,6 +35,7 @@ public class MonsterInfoCard extends Stack {
             @Override public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 swapToInfo(true);
             }
+
             @Override public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 swapToInfo(false);
             }

@@ -46,7 +46,6 @@ public class CharCreateButtons {
             }
         });
 
-
         barbarianButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -69,8 +68,8 @@ public class CharCreateButtons {
         barbarianButton.setVisible(false);
         Hero hero = game.getGameWorld().getHero();
         String heroInfo =
-            "Ваш герой создан \n" +
-            hero.getHeroInfo();
+            "Ваш герой создан \n"
+                + hero.getHeroInfo();
         label.setText(heroInfo);
         startButton.setVisible(true);
         screen.drawHeroIcon();

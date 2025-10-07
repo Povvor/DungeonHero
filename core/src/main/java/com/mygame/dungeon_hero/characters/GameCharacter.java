@@ -2,7 +2,6 @@ package com.mygame.dungeon_hero.characters;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygame.dungeon_hero.characters.heroClasses.HeroClass;
-import com.mygame.dungeon_hero.characters.wepons.Weapons;
 import lombok.Getter;
 import lombok.Setter;
 

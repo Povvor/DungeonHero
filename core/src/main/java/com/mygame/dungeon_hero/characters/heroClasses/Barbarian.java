@@ -4,7 +4,7 @@ import com.mygame.dungeon_hero.characters.Hero;
 import lombok.Getter;
 
 import static com.mygame.dungeon_hero.characters.Perks.*;
-import static com.mygame.dungeon_hero.characters.wepons.Weapons.CLUB;
+import static com.mygame.dungeon_hero.characters.Weapons.CLUB;
 
 public class Barbarian implements HeroClass {
     private static final int HEALTH_PER_LVL = 6;
@@ -30,26 +30,21 @@ public class Barbarian implements HeroClass {
             case 3:
                 hero.setEndurance(hero.getEndurance() + 1);
                 break;
+            default:
+                hero.lvlUp();
         }
         return hero;
     }
 
     @Override
     public String getLvlUpDescription(Hero hero) {
-        String result = "";
-        switch (lvl + 1) {
-            case 1:
-                result = "Стартовое оружие: Дубина\n" + "Урон оружием "
-                    + CLUB.getDamage() + "\n" + FURY.getDescription();
-                break;
-            case 2:
-                result = STONE_SKIN.getDescription();
-                break;
-            case 3:
-                result = "Выносливость + 1";
-                break;
-        }
-        return result;
+        return switch (lvl + 1) {
+            case 1 -> "Стартовое оружие: Дубина\n" + "Урон оружием "
+                + CLUB.getDamage() + "\n" + FURY.getDescription();
+            case 2 -> STONE_SKIN.getDescription();
+            case 3 -> "Выносливость + 1";
+            default -> "Максимальный уровень!";
+        };
     }
 
     @Override

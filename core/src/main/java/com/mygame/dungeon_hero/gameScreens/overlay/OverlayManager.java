@@ -14,19 +14,20 @@ import com.mygame.dungeon_hero.characters.Enemies;
 import com.mygame.dungeon_hero.characters.GameCharacter;
 import com.mygame.dungeon_hero.characters.Hero;
 import com.mygame.dungeon_hero.assetsManagers.UIManager;
-import com.mygame.dungeon_hero.characters.wepons.Weapons;
+import com.mygame.dungeon_hero.characters.Weapons;
 import com.mygame.dungeon_hero.logic.Battle;
-import com.mygame.dungeon_hero.logic.FreeModeCreation;
+import com.mygame.dungeon_hero.logic.FreeMode;
 
 public final class OverlayManager {
     private static GameCore gameCore;
     private static InfoOverlay overlay;
 
-    private OverlayManager() {}
+    private OverlayManager() {
+    }
 
     public static void initOverlay(Stage stage) {
         if (overlay == null) {
-            overlay = new InfoOverlay(stage.getViewport(), gameCore);
+            overlay = new InfoOverlay(stage.getViewport());
         }
     }
 
@@ -36,7 +37,9 @@ public final class OverlayManager {
     }
 
     public static void hide() {
-        if (overlay != null && overlay.getStage() != null) overlay.close();
+        if (overlay != null && overlay.getStage() != null) {
+            overlay.close();
+        }
     }
 
     public static Table getCompendium(Viewport viewport, boolean isEnemies) {
@@ -157,7 +160,7 @@ public final class OverlayManager {
         return compendium;
     }
 
-    public static Table getMonsterGridClickable(Viewport viewport, FreeModeCreation freeMode) {
+    public static Table getMonsterGridClickable(Viewport viewport, FreeMode freeMode) {
         Label compendiumName = new Label("Выбери противника", UIManager.getSkin(), "label");
         Table compendium = new Table();
         compendiumName.setFontScale(2f);

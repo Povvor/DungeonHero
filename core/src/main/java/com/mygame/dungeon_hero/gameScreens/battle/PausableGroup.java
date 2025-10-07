@@ -19,7 +19,10 @@ public class PausableGroup extends Group {
     }
 
     @Override public void act(float delta) {
-        if (paused) return;
+
+        if (paused) {
+            return;
+        }
         super.act(delta);
     }
 }

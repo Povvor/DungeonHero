@@ -1,4 +1,4 @@
-package com.mygame.dungeon_hero.characters.wepons;
+package com.mygame.dungeon_hero.characters;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygame.dungeon_hero.assetsManagers.TextureManager;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 
-import static com.mygame.dungeon_hero.characters.wepons.Weapons.DamageType.*;
+import static com.mygame.dungeon_hero.characters.Weapons.DamageType.*;
 
 @Getter
 @RequiredArgsConstructor

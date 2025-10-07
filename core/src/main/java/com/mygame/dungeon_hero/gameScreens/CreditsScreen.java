@@ -26,8 +26,8 @@ public class CreditsScreen implements Screen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        float W = stage.getViewport().getScreenWidth();
-        float H = stage.getViewport().getScreenHeight();
+        float w = stage.getViewport().getScreenWidth();
+        float h = stage.getViewport().getScreenHeight();
 
         TextureManager.changeBg("completeGame.png");
         TextureManager.finishAll();
@@ -36,7 +36,7 @@ public class CreditsScreen implements Screen {
         String credits = Gdx.files.internal("fonts/credits.txt").readString();
         Label creditsLabel = new Label(credits, UIManager.getSkin(), "label");
         creditsLabel.setAlignment(Align.center);
-        creditsLabel.setPosition(W / 2, H / 10, Align.bottom);
+        creditsLabel.setPosition(w / 2, h / 10, Align.bottom);
 
         TextButton backButton = new TextButton("Вернутся в меню!", UIManager.getSkin(), "big");
         backButton.addListener(new ClickListener() {
@@ -46,9 +46,7 @@ public class CreditsScreen implements Screen {
             }
         });
         backButton.align(Align.center);
-        backButton.setPosition(W / 2, 0, Align.bottom);
-
-
+        backButton.setPosition(w / 2, 0, Align.bottom);
 
         background.setFillParent(true);
         background.setScaling(Scaling.fill);
@@ -73,14 +71,15 @@ public class CreditsScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
     public void dispose() {
         stage.dispose();
-
     }
 }

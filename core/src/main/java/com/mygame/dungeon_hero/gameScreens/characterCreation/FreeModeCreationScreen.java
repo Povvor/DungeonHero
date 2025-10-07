@@ -16,21 +16,21 @@ import com.mygame.dungeon_hero.assetsManagers.TextureManager;
 import com.mygame.dungeon_hero.assetsManagers.UIManager;
 import com.mygame.dungeon_hero.characters.Hero;
 import com.mygame.dungeon_hero.gameScreens.overlay.OverlayManager;
-import com.mygame.dungeon_hero.logic.FreeModeCreation;
+import com.mygame.dungeon_hero.logic.FreeMode;
 import lombok.Setter;
 
-public class FreeMode implements Screen {
+public class FreeModeCreationScreen implements Screen {
     @Setter
     public Hero hero;
     public Stage stage;
-    private final FreeModeCreation freeModeCreation;
+    private final FreeMode freeModeCreation;
     private TextButton nextButton;
     private final Table createHero;
     private Table choseWeapon;
     private final Table choseEnemy;
     private Table heroInfoLabel;
 
-    public FreeMode(FreeModeCreation freeModeCreation) {
+    public FreeModeCreationScreen(FreeMode freeModeCreation) {
         stage = new Stage(new ScreenViewport());
         this.freeModeCreation = freeModeCreation;
         createHero = heroLvlUpButtons();
@@ -90,7 +90,6 @@ public class FreeMode implements Screen {
         table.add(banditButton).row();
         table.add(wariorButton).row();
         table.add(barbarianButton).row();
-
         return table;
     }
 
@@ -104,7 +103,7 @@ public class FreeMode implements Screen {
         }
         heroInfoLabel = OverlayManager.updateHeroTAble(stage, hero);
         heroInfoLabel.setSize(stage.getViewport().getWorldWidth() / 2.3f, stage.getViewport().getWorldHeight());
-        heroInfoLabel.setPosition(0,0);
+        heroInfoLabel.setPosition(0, 0);
         stage.addActor(heroInfoLabel);
     }
 
@@ -120,8 +119,6 @@ public class FreeMode implements Screen {
         stage.addActor(choseWeapon);
     }
 
-
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -135,14 +132,15 @@ public class FreeMode implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
     public void hide() {
-        stage.dispose();
     }
 
     @Override

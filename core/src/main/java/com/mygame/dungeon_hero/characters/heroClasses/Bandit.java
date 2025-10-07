@@ -4,7 +4,7 @@ import com.mygame.dungeon_hero.characters.Hero;
 import lombok.Getter;
 
 import static com.mygame.dungeon_hero.characters.Perks.*;
-import static com.mygame.dungeon_hero.characters.wepons.Weapons.*;
+import static com.mygame.dungeon_hero.characters.Weapons.*;
 
 public class Bandit implements HeroClass {
     private static final int HEALTH_PER_LVL = 4;
@@ -29,26 +29,21 @@ public class Bandit implements HeroClass {
             case 3:
                 hero.getPerks().add(POISON);
                 break;
+            default:
+                hero.lvlUp();
         }
         return hero;
     }
 
     @Override
     public String getLvlUpDescription(Hero hero) {
-        String result = "";
-        switch (lvl + 1) {
-            case 1:
-                result = "Стартовое оружие: Кинжал\n" + "Урон оружием "
-                    + DAGGER.getDamage() + "\n" + SNEAK_ATTACK.getDescription();
-                break;
-            case 2:
-                result = "Ловкость + 1";
-                break;
-            case 3:
-                result = POISON.getDescription();
-                break;
-        }
-        return result;
+        return switch (lvl + 1) {
+            case 1 -> "Стартовое оружие: Кинжал\n" + "Урон оружием "
+                + DAGGER.getDamage() + "\n" + SNEAK_ATTACK.getDescription();
+            case 2 -> "Ловкость + 1";
+            case 3 -> POISON.getDescription();
+            default -> "Максимальный уровень!";
+        };
     }
 
     @Override

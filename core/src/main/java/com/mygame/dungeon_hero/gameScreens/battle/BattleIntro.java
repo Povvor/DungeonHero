@@ -48,19 +48,19 @@ public class BattleIntro implements Screen {
     }
 
     private void layoutAndAnimate() {
-        float W = stage.getViewport().getScreenWidth();
-        float H = stage.getViewport().getScreenHeight();
+        float w = stage.getViewport().getScreenWidth();
+        float h = stage.getViewport().getScreenHeight();
 
-        float heroXPos = W * 0.25f;
-        float enemyXPos = W * 0.75f;
-        float centerY = H * 0.5f;
+        float heroXPos = w * 0.25f;
+        float enemyXPos = w * 0.75f;
+        float centerY = h * 0.5f;
 
-        float offsetY = H * 0.12f;
+        float offsetY = h * 0.12f;
 
-        heroImage.setPosition(heroXPos,  H + heroImage.getHeight() + offsetY, Align.center);
+        heroImage.setPosition(heroXPos,  h + heroImage.getHeight() + offsetY, Align.center);
         enemyImage.setPosition(enemyXPos, -enemyImage.getHeight() - offsetY, Align.center);
 
-        vsImage.setPosition(W * 0.5f, H * 0.5f, Align.center);
+        vsImage.setPosition(w * 0.5f, h * 0.5f, Align.center);
 
         float slideTime = 2.0f;
         float delayTime = 0.5f;
@@ -86,23 +86,40 @@ public class BattleIntro implements Screen {
 
         stage.addAction(Actions.sequence(
             Actions.delay(total),
-            Actions.run(() -> { if (onDone != null) onDone.run(); })
+            Actions.run(() -> {
+                if (onDone != null) {
+                    onDone.run();
+                }
+            })
         ));
     }
 
-    @Override public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
     }
 
-    @Override public void resize(int width, int height) {
+    @Override
+    public void resize(int width, int height) {
     }
 
-    @Override public void pause() {}
-    @Override public void resume() {}
-    @Override public void hide() {}
-    @Override public void dispose() { stage.dispose(); }
-}
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose(); }
+    }
 

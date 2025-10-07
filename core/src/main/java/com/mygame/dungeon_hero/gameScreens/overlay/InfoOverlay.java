@@ -17,9 +17,7 @@ import com.mygame.dungeon_hero.assetsManagers.UIManager;
 import com.mygame.dungeon_hero.logic.Battle;
 import lombok.Getter;
 
-
 import static com.badlogic.gdx.scenes.scene2d.ui.Value.percentHeight;
-
 
 public class InfoOverlay extends Group {
     private final Table panel;
@@ -28,7 +26,7 @@ public class InfoOverlay extends Group {
     private final Table compendiumTable;
     public Battle currentBattle;
 
-    public InfoOverlay(Viewport viewport, GameCore gameCore) {
+    public InfoOverlay(Viewport viewport) {
         this.viewport = viewport;
         Table buttonTable = getButtonPanel();
         infoTable = new Table();
@@ -59,7 +57,7 @@ public class InfoOverlay extends Group {
         infoTable.setVisible(false);
         setSize(stage.getViewport().getWorldWidth(), stage.getViewport().getWorldHeight());
         panel.pack();
-        panel.setPosition((getWidth()-panel.getWidth())/2f, (getHeight()-panel.getHeight())/2f);
+        panel.setPosition((getWidth() - panel.getWidth()) / 2f, (getHeight() - panel.getHeight()) / 2f);
         stage.addActor(this);
         toFront();
         clearActions();

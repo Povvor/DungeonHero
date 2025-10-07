@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygame.dungeon_hero.GameCore;
 import com.mygame.dungeon_hero.gameScreens.characterCreation.CreationScreen;
 import com.mygame.dungeon_hero.assetsManagers.SoundManager;
-import com.mygame.dungeon_hero.logic.FreeModeCreation;
+import com.mygame.dungeon_hero.logic.FreeMode;
 import lombok.Getter;
 
 @Getter
@@ -39,7 +39,7 @@ public class MainMenuButtonPanel {
         freeModeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                FreeModeCreation freeMode = new FreeModeCreation(game);
+                FreeMode freeMode = new FreeMode(game);
             }
         });
 

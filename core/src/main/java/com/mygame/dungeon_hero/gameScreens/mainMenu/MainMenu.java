@@ -28,19 +28,31 @@ public class MainMenu implements Screen {
 
     @Override
     public void show() {
+        compendium.setVisible(false);
+        stage.clear();
+
         SoundManager.loadAndPlayBgMusic("main_menu");
         TextureManager.changeBg("mainMenu.png");
         TextureManager.finishAll();
+
         Image background = new Image(TextureManager.getBgTexture("mainMenu.png"));
-        MainMenuButtonPanel buttons = new MainMenuButtonPanel(UIManager.getSkin(),game, () -> compendium.setVisible(true), stage.getViewport());
+        MainMenuButtonPanel buttons = new MainMenuButtonPanel(UIManager.getSkin(), game, this::showCompendium, stage.getViewport());
         Gdx.input.setInputProcessor(stage);
+
         Table table = buttons.getPanel();
         table.setFillParent(true);
         background.setFillParent(true);
         background.setScaling(Scaling.fill);
+
         stage.addActor(background);
         stage.addActor(table);
         stage.addActor(compendium);
+        compendium.toFront();
+    }
+
+    private void showCompendium() {
+        compendium.setVisible(true);
+        compendium.toFront();
     }
 
     @Override
@@ -61,14 +73,16 @@ public class MainMenu implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
     public void dispose() {
         stage.dispose();
-
     }
 }
+

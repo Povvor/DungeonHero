@@ -6,7 +6,6 @@ import com.mygame.dungeon_hero.characters.heroClasses.Bandit;
 import com.mygame.dungeon_hero.characters.heroClasses.Barbarian;
 import com.mygame.dungeon_hero.characters.heroClasses.HeroClass;
 import com.mygame.dungeon_hero.characters.heroClasses.Warior;
-import com.mygame.dungeon_hero.characters.wepons.Weapons;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +16,6 @@ public class Hero extends GameCharacter {
     private @Getter @Setter Weapons weapon;
     private @Getter @Setter String lastLvlUpBonus;
     private @Getter int level;
-
 
     public Hero(int startClassIndex) {
         this.setStrength(MathUtils.random(1, 3));

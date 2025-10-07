@@ -57,9 +57,9 @@ public class UIManager {
     }
 
     private static void initButtonSkin(BitmapFont font) {
-        Drawable up   = roundRect(new Color(0xd9c28aff),0.3f);
-        Drawable over = roundRect(new Color(0xe5cf98ff), 0.6f);
-        Drawable down = roundRect(new Color(0xc7ad77ff), 0.9f);
+        Drawable up   = roundRect(new Color(0x9fb8bacc), 0.3f);
+        Drawable over = roundRect(new Color(0xb7ccceee), 0.6f);
+        Drawable down = roundRect(new Color(0x4b6366aa), 0.9f);
         TextButton.TextButtonStyle button = new TextButton.TextButtonStyle();
         button.up = up;
         button.over = over;
@@ -70,7 +70,7 @@ public class UIManager {
         button.fontColor = Color.WHITE;
         button.overFontColor = Color.WHITE;
         button.downFontColor = Color.WHITE;
-        button.disabledFontColor = new Color(1,1,1,0.53f);
+        button.disabledFontColor = new Color(1, 1, 1, 0.53f);
         button.pressedOffsetY = -1;
         skin.add("big", button);
     }
@@ -87,7 +87,7 @@ public class UIManager {
         pm.fillCircle(27, 27, 4);
         Texture tex = new Texture(pm);
         pm.dispose();
-        return new NinePatchDrawable(new NinePatch(new TextureRegion(tex), 8,8,8,8));
+        return new NinePatchDrawable(new NinePatch(new TextureRegion(tex), 8, 8, 8, 8));
     }
 
     public static void dispose() {
