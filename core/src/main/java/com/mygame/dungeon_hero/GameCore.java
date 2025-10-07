@@ -23,7 +23,6 @@ public class GameCore extends Game {
         UIManager.init();
         SoundManager.stopMusic();
         SoundManager.loadAllSfx();
-        OverlayManager.setGameCore(this);
         mainMenu = new MainMenu(this);
         setScreen(mainMenu);
     }

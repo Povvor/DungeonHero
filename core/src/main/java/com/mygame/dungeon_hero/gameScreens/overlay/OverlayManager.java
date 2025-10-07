@@ -19,7 +19,6 @@ import com.mygame.dungeon_hero.logic.Battle;
 import com.mygame.dungeon_hero.logic.FreeMode;
 
 public final class OverlayManager {
-    private static GameCore gameCore;
     private static InfoOverlay overlay;
 
     private OverlayManager() {
@@ -187,9 +186,5 @@ public final class OverlayManager {
         }
         compendium.add(monsterGrid).row();
         return compendium;
-    }
-
-    public static void setGameCore(GameCore gameCore) {
-        OverlayManager.gameCore = gameCore;
     }
 }

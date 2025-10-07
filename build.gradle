@@ -69,4 +69,19 @@ subprojects {
   }
 }
 
+subprojects {
+  apply plugin: 'java'
+
+  java {
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(21) // или 21
+    }
+  }
+
+  tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+    options.encoding = 'UTF-8'
+  }
+}
+
 eclipse.project.name = 'DungeonHero' + '-parent'
