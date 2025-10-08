@@ -115,7 +115,7 @@ public class WinScreenPanel {
                     hero.lvlUp(1);
                     onBattleComplete.run();
                 } else {
-                    hero.setMaxHealth(hero.getMaxHealth() + hero.getEndurance());
+                    hero.lvlUp();
                     onBattleComplete.run();
                 }
             }

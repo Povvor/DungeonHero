@@ -3,7 +3,6 @@ package com.mygame.dungeon_hero;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.mygame.dungeon_hero.gameScreens.overlay.OverlayManager;
 import com.mygame.dungeon_hero.assetsManagers.TextureManager;
 import com.mygame.dungeon_hero.assetsManagers.SoundManager;
 import com.mygame.dungeon_hero.assetsManagers.UIManager;
@@ -13,7 +12,7 @@ import lombok.Getter;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class GameCore extends Game {
-    private final @Getter GameWorld gameWorld = new GameWorld(this);
+    private final @Getter GameWorld gameWorld = new  GameWorld(this);
     private Screen mainMenu;
 
     @Override

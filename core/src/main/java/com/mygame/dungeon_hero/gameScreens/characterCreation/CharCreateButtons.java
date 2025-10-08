@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygame.dungeon_hero.GameCore;
+import com.mygame.dungeon_hero.assetsManagers.UIManager;
 import com.mygame.dungeon_hero.characters.Hero;
 
 public class CharCreateButtons {
@@ -32,7 +33,7 @@ public class CharCreateButtons {
         banditButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.getGameWorld().createHero(0);
+                game.getGameWorld().firstLvlUp(0);
                 showCreatedHero();
 
             }
@@ -41,7 +42,7 @@ public class CharCreateButtons {
         wariorButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.getGameWorld().createHero(1);
+                game.getGameWorld().firstLvlUp(1);
                 showCreatedHero();
             }
         });
@@ -49,7 +50,7 @@ public class CharCreateButtons {
         barbarianButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.getGameWorld().createHero(2);
+                game.getGameWorld().firstLvlUp(2);
                 showCreatedHero();
             }
         });
@@ -77,7 +78,13 @@ public class CharCreateButtons {
     }
 
     public Table getPanel() {
+        game.getGameWorld().createHero();
+        Hero hero = game.getGameWorld().getHero();
+        String statsStr = String.format("Начальные хар-ки: \n СИЛ: %d ЛВК: %d ВНЛ: %d", hero.getStrength(), hero.getAgility(), hero.getEndurance());
+        Label stats = new Label(statsStr, UIManager.getSkin(), "label" );
         Table table = new Table();
+        table.add(stats);
+        table.row();
         table.add(label).width(800).pad(10);
         table.row();
         table.add(banditButton).width(800).pad(10);

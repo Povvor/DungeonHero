@@ -29,6 +29,21 @@ public class Hero extends GameCharacter {
         level++;
     }
 
+    public Hero() {
+        this.setStrength(MathUtils.random(1, 3));
+        this.setAgility(MathUtils.random(1, 3));
+        this.setEndurance(MathUtils.random(1, 3));
+        this.setClasses(Arrays.asList(new Bandit(), new Warior(), new Barbarian()));
+    }
+
+    public void initFirstClass(int classIndex) {
+        getClasses().get(classIndex).lvlUp(this);
+        this.setMaxHealth(this.getHealth());
+        updateHeroSprite();
+        setName("Герой");
+        level++;
+    }
+
     public String getHeroInfo() {
         String perksStr = this.getPerks().isEmpty()
             ? "Нет"

@@ -6,15 +6,19 @@ import lombok.Getter;
 
 public class GameWorld {
     private @Getter Hero hero;
-    private @Getter GameCore game;
+    private final @Getter GameCore game;
     private @Getter Adventure adventure;
 
     public GameWorld(GameCore game) {
         this.game = game;
     }
 
-    public void createHero(int inputIndex) {
-        hero = new Hero(inputIndex);
+    public void firstLvlUp(int classIndex) {
+        hero.initFirstClass(classIndex);
+    }
+
+    public void createHero() {
+        hero = new Hero();
     }
 
     public void startAdventure() {

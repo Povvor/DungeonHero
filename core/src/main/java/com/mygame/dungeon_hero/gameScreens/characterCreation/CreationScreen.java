@@ -43,7 +43,7 @@ public class CreationScreen implements Screen {
         float h = stage.getViewport().getWorldHeight();
         heroIcon.setSize(w / 3, h / 3);
         heroIcon.setScaling(Scaling.fit);
-        heroIcon.setPosition(w * (0.65f), h * (0.58f), Align.center);
+        heroIcon.setPosition(w * 0.65f, h * 0.58f, Align.center);
         stage.addActor(heroIcon);
     }
 
